@@ -62,7 +62,7 @@ type GetOptionsBaseFields<
 > = Pick<FindOptionsTransaction<Attributes<ModelT> & IBaseFields>, K>;
 
 export abstract class BaseReadRepository<ModelT extends Model> {
-  protected readonly repository: ModelStatic<ModelT>;
+  protected readonly model: ModelStatic<ModelT>;
   eagerLoadMapping: Map<string, EagerLoad>;
   orderSet: Set<OrderItem>;
   baseWhereClause: WhereOptions<Attributes<ModelT> & IBaseFields>;
@@ -73,7 +73,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     order: OrderItem[] = [],
     whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
   ) {
-    this.repository = model;
+    this.model = model;
     this.eagerLoadMapping = new Map(eagerLoad.map((el) => [el.as, el]));
     this.orderSet = new Set(order);
     this.baseWhereClause = whereClause;
@@ -85,14 +85,14 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       paranoid: true,
     },
   ): Promise<ModelT> {
-    const readModel = await this.repository.findByPk(id, {
+    const readModel = await this.model.findByPk(id, {
       include: [...this.eagerLoadMapping.values()],
       transaction: options.parentTransaction,
       paranoid: options.paranoid,
     });
 
     if (!readModel) {
-      throw new NotFoundError(`Could not find ${this.repository.name} ${id}`);
+      throw new NotFoundError(`Could not find ${this.model.name} ${id}`);
     }
 
     return readModel;
@@ -108,7 +108,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     },
   ): Promise<ModelT[]> {
     try {
-      return await this.repository.findAll({
+      return await this.model.findAll({
         limit: options.limit,
         offset: options.offset,
         transaction: options.parentTransaction,
@@ -131,7 +131,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       paranoid: true,
     },
   ): Promise<ModelT> {
-    const readModel = await this.repository.findOne({
+    const readModel = await this.model.findOne({
       where: {
         ...this.baseWhereClause,
         ...whereClause,
@@ -144,7 +144,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
 
     if (!readModel) {
       throw new NotFoundError(
-        `Could not find ${this.repository.name} ${JSON.stringify(whereClause)}`,
+        `Could not find ${this.model.name} ${JSON.stringify(whereClause)}`,
       );
     }
 
@@ -162,7 +162,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     },
   ): Promise<ModelT[]> {
     try {
-      return await this.repository.findAll({
+      return await this.model.findAll({
         attributes: options.attributes,
         where: { ...this.baseWhereClause, ...whereClause },
         limit: options.limit,
@@ -182,7 +182,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
     options: GetOptionsBaseFields<ModelT, "parentTransaction">,
   ): Promise<number> {
-    const countModel = await this.repository.count({
+    const countModel = await this.model.count({
       distinct: true,
       col: "id",
       where: { ...this.baseWhereClause, ...whereClause },

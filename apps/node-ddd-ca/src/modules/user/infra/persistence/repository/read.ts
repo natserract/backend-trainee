@@ -2,17 +2,18 @@ import { QueryTypes } from "sequelize";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { BaseReadRepository } from "~/shared/infra/persistence/repository/read";
-import {
-  IUserReadRepository,
-  IUserWriteRepository,
-} from "~/modules/user/infra/persistence/repository/contract";
-import { UserModel, User } from "~/modules/user/application/model/user";
+import { UserModel, User } from "~/modules/user/infra/persistence/model/user";
 
 const sequelize = connection.sequelize;
 
-export class UserRepository
+export interface IUserReadRepository {
+  getAll(): Promise<UserModel[]>;
+  getByUserId(userId: number): Promise<UserModel>;
+}
+
+export class UserReadRepository
   extends BaseReadRepository<UserModel>
-  implements IUserReadRepository, IUserWriteRepository
+  implements IUserReadRepository
 {
   async getAll(): Promise<UserModel[]> {
     const users = await this.getAll();

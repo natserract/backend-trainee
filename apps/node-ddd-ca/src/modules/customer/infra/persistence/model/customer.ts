@@ -12,7 +12,7 @@ import {
   User,
   UserModel,
   UserCreationAttributes,
-} from "~/modules/user/application/model/user";
+} from "~/modules/user/infra/persistence/model/user";
 import { connection } from "~/shared/infra/db/config/config";
 
 const sequelize = connection.sequelize;

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { UserAttributesSchema } from "~/modules/user/application/model/user";
+import { UserAttributesSchema } from "~/modules/user/domain/interface/user";
 
 export const CreateUserDTOSchema = UserAttributesSchema.pick({
   email: true,

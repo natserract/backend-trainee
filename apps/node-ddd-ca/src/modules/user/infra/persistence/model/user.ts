@@ -1,27 +1,18 @@
-import { z } from "zod";
 import { DataTypes, Model, Op } from "sequelize";
 
 import { connection } from "~/shared/infra/db/config/config";
+import { IUserAttributes } from "~/modules/user/domain/interface/user";
 
 const sequelize = connection.sequelize;
 
-export const UserAttributesSchema = z.object({
-  id: z.number(),
-  credentialUuid: z.string().uuid(),
-  email: z.string().email(),
-  phone: z.string().nullish(),
-});
-
-export interface UserAttributes extends z.infer<typeof UserAttributesSchema> {}
-
-export interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
+export interface UserCreationAttributes extends Omit<IUserAttributes, "id"> {}
 
 export interface UserUpdateAttributes
   extends Omit<UserCreationAttributes, "credentialUuid"> {}
 
 export interface UserModel
-  extends Model<UserAttributes, UserCreationAttributes>,
-    UserAttributes {
+  extends Model<IUserAttributes, UserCreationAttributes>,
+    IUserAttributes {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
