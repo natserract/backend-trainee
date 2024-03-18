@@ -6,26 +6,19 @@ import {
   BelongsToSetAssociationMixin,
   BelongsToCreateAssociationMixin,
 } from "sequelize";
-import { z } from "zod";
 
 import {
   User,
   UserModel,
   UserCreationAttributes,
 } from "~/modules/user/infra/persistence/model/user";
+import { ICustomerAttributes } from "~/modules/customer/domain/interface/customer";
+
 import { connection } from "~/shared/infra/db/config/config";
 
 const sequelize = connection.sequelize;
 
-export const CustomerAttributesSchema = z.object({
-  id: z.number(),
-  name: z.string().nullish(),
-  userId: z.number(),
-  notes: z.string().nullish(),
-});
-
-export interface CustomerAttributes
-  extends z.infer<typeof CustomerAttributesSchema> {}
+export interface CustomerAttributes extends ICustomerAttributes {}
 
 export interface CustomerCreationAttributes
   extends Omit<CustomerAttributes, "id"> {}

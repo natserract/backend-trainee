@@ -5,14 +5,16 @@ import { IUserAttributes } from "~/modules/user/domain/interface/user";
 
 const sequelize = connection.sequelize;
 
-export interface UserCreationAttributes extends Omit<IUserAttributes, "id"> {}
+export interface UserAttributes extends IUserAttributes {}
+
+export interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
 
 export interface UserUpdateAttributes
   extends Omit<UserCreationAttributes, "credentialUuid"> {}
 
 export interface UserModel
-  extends Model<IUserAttributes, UserCreationAttributes>,
-    IUserAttributes {
+  extends Model<UserAttributes, UserCreationAttributes>,
+    UserAttributes {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
