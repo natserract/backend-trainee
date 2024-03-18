@@ -12,12 +12,7 @@ export const UserAttributesSchema = z.object({
   phone: z.string().nullish(),
 });
 
-export interface UserAttributes extends z.infer<typeof UserAttributesSchema> {
-  id: number;
-  credentialUuid: string;
-  email: string;
-  phone?: string | null;
-}
+export interface UserAttributes extends z.infer<typeof UserAttributesSchema> {}
 
 export interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
 
