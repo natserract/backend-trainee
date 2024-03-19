@@ -30,6 +30,12 @@ Domain Services: The validation and indexing processes can be implemented as dom
 
 Repositories: The inventory can be managed through a repository interface that abstracts the data access layer. The repository is responsible for storing and retrieving product entities.
 
+## Domain-Driven Layers Example
+
+- Domain: Entities, Value Objects, Enumerations, Logic, Exceptions
+- Application: Interfaces, Models, Logic, Commands/Queries, Validators, Exceptions
+- Infra: Persistence,
+
 ## SOLID principles
 
 - Dependency Inversion Principle:

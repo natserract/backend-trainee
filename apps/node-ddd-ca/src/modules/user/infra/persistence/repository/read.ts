@@ -1,5 +1,4 @@
-import { QueryTypes, type ModelStatic } from "sequelize";
-import { injectable, unmanaged } from "inversify";
+import { QueryTypes } from "sequelize";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { BaseReadRepository } from "~/shared/infra/persistence/repository/read";
@@ -15,15 +14,10 @@ export interface IUserGetByIdRepository {
   getByUserId(userId: number): Promise<UserModel>;
 }
 
-@injectable()
 export class UserReadRepository
   extends BaseReadRepository<UserModel>
   implements IUserGetAllRepository, IUserGetByIdRepository
 {
-  constructor(@unmanaged() model: ModelStatic<UserModel>) {
-    super(model);
-  }
-
   async getAll(): Promise<UserModel[]> {
     const users = await this.getAll();
     return users;

@@ -1,13 +1,15 @@
 import {
   Model,
-  ModelStatic,
+  type ModelStatic,
   FindOptions,
   Attributes,
   IncludeOptions,
-  WhereOptions,
+  type WhereOptions,
   OrderItem,
   Transaction as SequelizeTransaction,
 } from "sequelize";
+import { injectable, unmanaged } from "inversify";
+
 import { NotFoundError } from "~/shared/common/utils/errors";
 
 export type EagerLoad = Omit<IncludeOptions, "include"> & {
@@ -61,6 +63,7 @@ type GetOptionsBaseFields<
   K extends keyof FindOptionsTransaction<Attributes<ModelT>>,
 > = Pick<FindOptionsTransaction<Attributes<ModelT> & IBaseFields>, K>;
 
+@injectable()
 export abstract class BaseReadRepository<ModelT extends Model> {
   protected readonly model: ModelStatic<ModelT>;
   eagerLoadMapping: Map<string, EagerLoad>;
@@ -68,9 +71,10 @@ export abstract class BaseReadRepository<ModelT extends Model> {
   baseWhereClause: WhereOptions<Attributes<ModelT> & IBaseFields>;
 
   constructor(
-    model: ModelStatic<ModelT>,
-    eagerLoad: EagerLoad[] = [],
-    order: OrderItem[] = [],
+    @unmanaged() model: ModelStatic<ModelT>,
+    @unmanaged() eagerLoad: EagerLoad[] = [],
+    @unmanaged() order: OrderItem[] = [],
+    @unmanaged()
     whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
   ) {
     this.model = model;
