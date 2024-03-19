@@ -2,8 +2,8 @@ import { APP_PORT } from "~/configs/app_config";
 
 import { initDB, initMigration } from "~/shared/infra/db/config/config";
 import { initModels } from "~/shared/infra/db/models/models";
-import registerApplicationMiddlewares from "~/shared/infra/http/api/middleware";
-import registerApplicationRouters from "~/shared/infra/http/api/controller";
+import registerApplicationMiddlewares from "~/shared/infra/http/middleware";
+import registerApplicationRouters from "~/shared/infra/http/controller";
 import createKoaApp from "~/shared/infra/http/server/koa";
 import { loadEnv } from "~/shared/common/utils/env";
 

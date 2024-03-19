@@ -2,7 +2,7 @@ import { Container } from "inversify";
 
 import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
 import { UserGetUseCase } from "~/modules/user/application/usecase/get";
-import { UserController } from "~/modules/user/infra/http/api/controller/controller";
+import { UserController } from "~/modules/user/infra/http/controller/controller";
 
 // Entry point for Controller
 const container = new Container();

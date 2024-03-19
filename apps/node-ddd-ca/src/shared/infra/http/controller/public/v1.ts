@@ -1,6 +1,6 @@
 import Router from "@koa/router";
 
-import usersRouter from "~/modules/user/infra/http/api/controller";
+import usersRouter from "~/modules/user/infra/http/controller";
 
 const router = new Router();
 

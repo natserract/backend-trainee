@@ -4,9 +4,9 @@ import body from "koa-better-body";
 import type { Context, Next } from "koa";
 import { v4 as uuidv4 } from "uuid";
 
-import context from "~/shared/infra/http/api/middleware/context";
-import cors from "~/shared/infra/http/api/middleware/cors";
-import security from "~/shared/infra/http/api/middleware/security";
+import context from "~/shared/infra/http/middleware/context";
+import cors from "~/shared/infra/http/middleware/cors";
+import security from "~/shared/infra/http/middleware/security";
 
 const registerApplicationMiddlewares = async (app: Koa) => {
   app
