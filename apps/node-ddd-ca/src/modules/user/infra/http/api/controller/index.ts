@@ -1,9 +1,13 @@
 import Router from "@koa/router";
 
-import { getAll } from "~/modules/user/infra/http/api/controller/get_all";
+import { UserController } from "~/modules/user/infra/http/api/controller/controller";
+import container from "~/modules/user/infra/http/api/controller/dependency_injection";
 
 const router = new Router();
 
-router.get("/", getAll);
+// Resolves controller
+const userController = container.get<UserController>(UserController);
+
+router.get("/", userController.getAll);
 
 export default router;
