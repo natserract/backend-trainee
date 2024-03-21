@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "rimraf dist && nodemon -e ts --exec \"npm run start\"",
     "start": "npm run build && node --max-old-space-size=4096 dist/main.js",
-    "build": "tsc --diagnostics && vite build",
+    "build": "rimraf dist && tsc --project tsconfig.json --diagnostics && tsc-alias -p tsconfig.json && vite build",
     "generate": "json-server database.json",
     "preview": "vite preview"
   },
@@ -52,6 +52,7 @@
     "dotenv": "^16.4.5",
     "faker": "^6.6.6",
     "inversify": "^6.0.2",
+    "inversify-binding-decorators": "^4.0.0",
     "koa": "^2.15.0",
     "koa-better-body": "^3.3.9",
     "koa-helmet": "^7.0.2",

@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
 import { SequelizeStorage, Umzug } from "umzug";
 
@@ -9,8 +8,6 @@ import {
   DB_DATABASE,
 } from "~/configs/database_config";
 import { APP_ENV } from "~/configs/app_config";
-
-dotenv.config();
 
 const databaseCredentials = {
   development: {

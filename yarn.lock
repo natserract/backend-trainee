@@ -3873,6 +3873,11 @@ internal-slot@^1.0.5, internal-slot@^1.0.7:
     hasown "^2.0.0"
     side-channel "^1.0.4"
 
+inversify-binding-decorators@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/inversify-binding-decorators/-/inversify-binding-decorators-4.0.0.tgz#c4d1ac50d7d6531f465ee7894e92031f7471c865"
+  integrity sha512-r8au/oH3vS7ttHj0RivAznwElySeRohLfg8lvOSzbrX6abf/8ik8ptk49XbzdShgrnalvl7CM6MjcskfM7MMqQ==
+
 inversify@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/inversify/-/inversify-6.0.2.tgz#dc7fa0348213d789d35ffb719dea9685570989c7"

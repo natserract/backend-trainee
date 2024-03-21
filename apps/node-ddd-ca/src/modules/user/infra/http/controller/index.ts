@@ -1,7 +1,10 @@
 import Router from "@koa/router";
+import { buildProviderModule } from "inversify-binding-decorators";
 
+import { container } from "~/container";
 import { UserController } from "~/modules/user/infra/http/controller/controller";
-import container from "~/modules/user/infra/http/controller/controller_di";
+
+container.load(buildProviderModule());
 
 const router = new Router();
 

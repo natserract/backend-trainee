@@ -1,13 +1,17 @@
-import { injectable, unmanaged } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
-import type { IUserGetByIdRepository } from "~/modules/user/infra/persistence/repository/read";
+import {
+  UserReadRepository,
+  type IUserGetByIdRepository,
+} from "~/modules/user/infra/persistence/repository/read";
 
-@injectable()
+@provide(UserGetUseCase)
 export class UserGetUseCase {
   public repository: IUserGetByIdRepository;
 
-  constructor(@unmanaged() repository: IUserGetByIdRepository) {
+  constructor(@inject(UserReadRepository) repository: IUserGetByIdRepository) {
     this.repository = repository;
   }
 

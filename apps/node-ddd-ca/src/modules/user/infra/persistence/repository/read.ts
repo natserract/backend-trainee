@@ -1,4 +1,5 @@
 import { QueryTypes } from "sequelize";
+import { provide } from "inversify-binding-decorators";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { BaseReadRepository } from "~/shared/infra/persistence/repository/read";
@@ -14,6 +15,7 @@ export interface IUserGetByIdRepository {
   getByUserId(userId: number): Promise<UserModel>;
 }
 
+@provide(UserReadRepository)
 export class UserReadRepository
   extends BaseReadRepository<UserModel>
   implements IUserGetAllRepository, IUserGetByIdRepository

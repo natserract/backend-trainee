@@ -1,4 +1,4 @@
 import "reflect-metadata";
 
-import { createServer } from "~/shared/infra/http/app";
-export const viteNodeApp = createServer();
+import { bootstrap } from "~/shared/infra/http/server";
+void bootstrap();
