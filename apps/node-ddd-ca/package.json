@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "rimraf dist && nodemon -e ts --exec \"npm run start\"",
-    "start": "npm run build && node dist/main.js",
+    "start": "npm run build && node --max-old-space-size=4096 dist/main.js",
     "build": "rimraf dist && tsc --diagnostics && vite build",
     "preview": "vite preview"
   },
