@@ -12,7 +12,7 @@ import {
   IBaseFields,
   GetOptions,
   GetOptionsBaseFields,
-} from "~/shared/infra/persistence/repository/interface";
+} from "~/shared/infra/persistence/repository/types";
 
 export abstract class BaseReadRepository<ModelT extends Model> {
   protected readonly model: ModelStatic<ModelT>;

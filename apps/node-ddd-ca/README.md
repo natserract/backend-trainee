@@ -54,37 +54,3 @@ Three Types of Dependency Injection:
 1. Constructor Injection
 2. Setter Injection
 3. Interface Injection
-
-## Dependency Injection Library
-
-### InversifyJS
-
-- `@injectable()`: The @injectable is a decorator available in the Inversify library, it allows you to indicate the current class can be "injected" using the container.
-
-- `@unmanaged()`: The `@unmanaged()` decorator allow users to flag that an argument will be manually injected into a base class. We use the word "unmanaged" because InversifyJS does not have control under user provided values and it doesn't manage their injection.
-
-- `Container`: Entry point, Container modules can help you to manage the complexity of your bindings in very large applications. Example:
-
-```ts
-const userController = new UserController(
-  new UserGetAllUseCase(new UserReadRepository(User, [])),
-  new UserGetUseCase(new UserReadRepository(User, [])),
-);
-```
-
-**Solution**:
-
-```ts
-// Entry point for Controller
-const container = new Container();
-
-// Use cases
-container.bind<UserGetAllUseCase>(UserGetAllUseCase).toSelf();
-container.bind<UserGetUseCase>(UserGetUseCase).toSelf();
-
-// Controller
-container.bind<UserController>(UserController).toSelf();
-
-// Resolve
-container.get<UserController>(UserController);
-```
