@@ -1,5 +1,4 @@
-import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { injectable, inject } from "tsyringe";
 
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
 import {
@@ -7,16 +6,14 @@ import {
   type IUserGetAllRepository,
 } from "~/modules/user/infra/persistence/repository/read";
 
-@provide(UserGetAllUseCase)
+@injectable()
 export class UserGetAllUseCase {
-  public repository: IUserGetAllRepository;
-
-  constructor(@inject(UserReadRepository) repository: IUserGetAllRepository) {
-    this.repository = repository;
-  }
+  constructor(
+    @inject(UserReadRepository) private repository: IUserGetAllRepository,
+  ) {}
 
   async execute(): Promise<UserModel[]> {
-    const users = await this.repository.getAll();
+    const users = await this.repository.findAll();
     return users;
   }
 }

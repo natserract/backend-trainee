@@ -1,49 +1,45 @@
-// import { injectable } from "inversify";
-import { provide } from "inversify-binding-decorators";
 import type { Context } from "koa";
+import { injectable, inject } from "tsyringe";
+import Router from "@koa/router";
 
 import Statuses from "~/shared/common/utils/statuses";
-// import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
-// import { UserGetUseCase } from "~/modules/user/application/usecase/get";
-// import { BaseController } from "~/shared/infra/http/utils/base_controller";
-/**
-import {
-  GetAllResponseSchema,
-  GetAllResponse,
-} from "~/modules/user/infra/http/contract/api";
-**/
+import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
+import { UserGetUseCase } from "~/modules/user/application/usecase/get";
+import { BaseController } from "~/shared/infra/http/utils/base_controller";
 
-@provide(UserController)
-export class UserController {
-  // constructor() {} //@inject(UserGetUseCase) private userGetUseCase: UserGetUseCase, //@inject(UserGetAllUseCase) private userGetAllUseCase: UserGetAllUseCase,
+@injectable()
+export class UserController extends BaseController {
+  private router: Router;
 
-  async getAll(ctx: Context) {
-    try {
-      // const users = await this.userGetAllUseCase.execute();
-      const users = [
-        {
-          id: 1,
-          name: "Alfin",
-        },
-      ];
-
-      ctx.status = Statuses.OK;
-      ctx.body = {
-        users,
-      };
-    } catch (error) {
-      ctx.status = Statuses.SERVER_ERROR;
-      ctx.body = {
-        error: "An error occurred while retrieving users.",
-      };
-    }
+  constructor(
+    @inject(UserGetAllUseCase) private userGetAllUseCase: UserGetAllUseCase,
+    @inject(UserGetUseCase) private userGetUseCase: UserGetUseCase,
+  ) {
+    super();
+    this.router = new Router();
   }
 
-  /**
-  async get(ctx: Context) {
+  register() {
+    this.router.get("/", this.getAll);
+    this.router.get("/:userId", this.get);
+
+    return this.router;
+  }
+
+  getAll = async (ctx: Context) => {
+    const users = await this.userGetAllUseCase.execute();
+
+    ctx.status = Statuses.OK;
+    ctx.body = {
+      users,
+    };
+  };
+
+  get = async (ctx: Context) => {
     try {
       const userId = parseInt(ctx.params.id);
       const user = await this.userGetUseCase.execute(userId);
+
       ctx.status = Statuses.OK;
       ctx.body = {
         user,
@@ -54,6 +50,5 @@ export class UserController {
         error: "An error occurred while retrieving the user.",
       };
     }
-  }
-  **/
+  };
 }

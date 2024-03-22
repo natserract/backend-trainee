@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import Koa from "koa";
-import { buildProviderModule } from "inversify-binding-decorators";
+import { injectable } from "tsyringe";
 
 import { APP_PORT } from "~/configs/app_config";
 
@@ -9,25 +9,29 @@ import { initModels } from "~/shared/infra/db/models/models";
 
 import registerApplicationMiddlewares from "~/shared/infra/http/middleware";
 import registerApplicationRouters from "~/shared/infra/http/controller";
-import { container } from "~/container";
 
 dotenv.config();
-container.load(buildProviderModule());
 
-export const bootstrap = async () => {
-  await initDB();
-  await initMigration();
-  await initModels();
+@injectable()
+export class HttpServer {
+  constructor() {
+    this.init();
+  }
 
-  const app = new Koa();
+  private async init() {
+    await initDB();
+    await initMigration();
+    await initModels();
+  }
 
-  // DI Container
-  // container.load(buildProviderModule());
+  public async startServer() {
+    const app = new Koa();
 
-  await registerApplicationMiddlewares(app);
-  await registerApplicationRouters(app);
+    await registerApplicationMiddlewares(app);
+    await registerApplicationRouters(app);
 
-  app.listen(APP_PORT, () => {
-    console.log(`Server available at http://localhost:${APP_PORT}`);
-  });
-};
+    app.listen(APP_PORT, () => {
+      console.log(`Server available at http://localhost:${APP_PORT}`);
+    });
+  }
+}

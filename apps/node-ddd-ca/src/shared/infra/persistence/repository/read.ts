@@ -1,69 +1,19 @@
 import {
   Model,
   type ModelStatic,
-  FindOptions,
   Attributes,
-  IncludeOptions,
   type WhereOptions,
   OrderItem,
-  Transaction as SequelizeTransaction,
 } from "sequelize";
-import { injectable, unmanaged } from "inversify";
 
 import { NotFoundError } from "~/shared/common/utils/errors";
+import {
+  EagerLoad,
+  IBaseFields,
+  GetOptions,
+  GetOptionsBaseFields,
+} from "~/shared/infra/persistence/repository/interface";
 
-export type EagerLoad = Omit<IncludeOptions, "include"> & {
-  as: string;
-  model: ModelStatic<any>;
-  include?: EagerLoadNested1[];
-};
-
-export type EagerLoadNested1 = Omit<IncludeOptions, "include"> & {
-  as: string;
-  model: ModelStatic<any>;
-  include?: EagerLoadNested2[];
-};
-export type EagerLoadNested2 = Omit<IncludeOptions, "include"> & {
-  as: string;
-  model: ModelStatic<any>;
-  include?: EagerLoadNested3WithException[];
-};
-export type EagerLoadNested3WithException = Omit<IncludeOptions, "include"> & {
-  as: string;
-  model: ModelStatic<any>;
-  include?: EagerLoadNested3WithException[];
-  exception: string;
-};
-
-export interface PaginationParams {
-  limit?: number;
-  offset?: number;
-}
-
-interface IBaseFields {
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-type FindOptionsTransaction<ModelT extends Model> = Omit<
-  FindOptions<Attributes<ModelT>>,
-  "transaction"
-> & {
-  // Override transaction prop
-  parentTransaction?: SequelizeTransaction;
-};
-
-type GetOptions<
-  ModelT extends Model,
-  K extends keyof FindOptionsTransaction<Attributes<ModelT>>,
-> = Pick<FindOptionsTransaction<Attributes<ModelT>>, K>;
-
-type GetOptionsBaseFields<
-  ModelT extends Model,
-  K extends keyof FindOptionsTransaction<Attributes<ModelT>>,
-> = Pick<FindOptionsTransaction<Attributes<ModelT> & IBaseFields>, K>;
-
-@injectable()
 export abstract class BaseReadRepository<ModelT extends Model> {
   protected readonly model: ModelStatic<ModelT>;
   eagerLoadMapping: Map<string, EagerLoad>;
@@ -71,10 +21,9 @@ export abstract class BaseReadRepository<ModelT extends Model> {
   baseWhereClause: WhereOptions<Attributes<ModelT> & IBaseFields>;
 
   constructor(
-    @unmanaged() model: ModelStatic<ModelT>,
-    @unmanaged() eagerLoad: EagerLoad[] = [],
-    @unmanaged() order: OrderItem[] = [],
-    @unmanaged()
+    model: ModelStatic<ModelT>,
+    eagerLoad: EagerLoad[] = [],
+    order: OrderItem[] = [],
     whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
   ) {
     this.model = model;
