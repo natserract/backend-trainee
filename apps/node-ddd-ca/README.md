@@ -2,9 +2,9 @@
 
 This is my implementation of [DDD (Domain Driven Design)](https://khalilstemmler.com/articles/domain-driven-design-intro/) & [CA (Clean Architecture)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) architectures. The goals of this project are for enterpise applications that prioritize simplicity and modeling code as close to the business domain as possible. This results in code that can be easily understood by the business and evolve with the changing needs of the business domain.
 
-By isolating the domain code from all other issues of the system such as infrastructure, security, transport, serialization, etc.; the complexity of the system grows only as large as the complexity of the business or domain problem itself.
-
 > Disclaimer: There is no such architecture that fits all. Every software development architecture or pattern has pros and cons; base your decision on the project, the scope, and the team.
+
+By isolating the domain code from all other issues of the system such as infrastructure, security, transport, serialization, etc.; the complexity of the system grows only as large as the complexity of the business or domain problem itself.
 
 ## Domain Driven Design (DDD) & Clean Architecture (CA)
 
@@ -14,7 +14,7 @@ By isolating the domain code from all other issues of the system such as infrast
 
 Domain-driven design (DDD) is the concept that the structure and language of your code (class names, class methods, class variables) should match the business domain. For example, if your software processes loan applications, it might have classes such as LoanApplication and Customer, and methods such as AcceptOffer and Withdraw.
 
-**\*\***Domain-driven design (DDD) is divided into **[strategic patterns](https://thedomaindrivendesign.io/what-is-strategic-design/)** and **[tactical patterns](https://thedomaindrivendesign.io/what-is-tactical-design/)**. The strategic pattern consists of things like bounded context, ubiquitous language, and context map; the tactical pattern consists of concepts like value types, entities, and aggregate
+Domain-driven design (DDD) is divided into **[strategic patterns](https://thedomaindrivendesign.io/what-is-strategic-design/)** and **[tactical patterns](https://thedomaindrivendesign.io/what-is-tactical-design/)**. The strategic pattern consists of things like bounded context, ubiquitous language, and context map; the tactical pattern consists of concepts like value types, entities, and aggregate
 
 > So you have received your 100 pages of the requirements doc and a presentation has been made about your new project. Now as a developer your job is to translate the business requirements to your code. But where do we start? Architecture you say? System diagrams? Project structure? How about starting from discovering and translating the domain? I assume you are familiar or at least or the term Domain Driven Design.
 
@@ -39,35 +39,37 @@ Layering is a common practice to separate and organise code units by their role/
 
 ## DDD & CA Components
 
-- **Repositories:**
+### **Repositories:**
   Repositories are classes or components that encapsulate the logic required to access data sources. They centralize common data access functionality, providing better maintainability and decoupling the infrastructure or technology used to access databases from the domain model layer. For each aggregate or aggregate root, you should create one repository class.
-- **Controllers:**
+  
+### **Controllers:**
   A controller receives the request, maps it to the Application model, calls the appropriate application use case, and maps the result to the desired response entity. The controller converts the request into a request model and passes it to the use case interactor through its input port.
-
-Such request objects are usually simple data transfer objects (DTO). Depending on the view technology a request object may contain typed information (e.g. WPF) or just strings (e.g. HTML). It is the role of the controller to convert the given information into a format which is most convenient for and defined by the use case interactor. For that the controller may have some simple if-then-else or parser logic but we do not want to have any processing logic inside the controller.
+  
+  Such request objects are usually simple data transfer objects (DTO). Depending on the view technology a request object may contain typed information (e.g. WPF) or just strings (e.g. HTML). It is the role of the controller to convert the given information into a format which is most convenient for and defined by the use case interactor. For that the controller may have some simple if-then-else or parser logic but we do not want to have any processing logic inside the controller.
 
 Finally the controller simply calls an API on the use case interactor to trigger the processing.
 
-- **Data Transfer Object:**
+### **Data Transfer Object:**
   DTOs are used for transferring data between different layers of an application, often between the application’s backend and frontend. They are lightweight objects designed to carry data and do not contain any domain logic. DTOs help in reducing the amount of data transferred and provide a clear contract between different layers.
-- **Models:**
+
+### **Models:**
   The term “Model” is quite generic and can refer to various things based on the context. In some cases, it might be used interchangeably with Domain Objects or Entities. However, in a broader context, the “Model” can refer to the representation of data that is used within the application. This can include both Domain Objects and DTOs.
-- **Use Case:**
+
+### **Use Case:**
   In **Clean Architecture**, a use case is a piece of business logic that represents a single task that the system needs to perform. The use case encapsulates the rules and logic required to perform the task, and defines the inputs and outputs required for the operation.
 
 The use case is typically implemented as a standalone module (class or function), which is responsible for coordinating the flow of data between different layers of the system, such as the domain layer and the presentation layer. The use case is often triggered by a user action (clicking of a button) or an event (API call) in the system, and can result in changes to the state of the system or the data that is stored or retrieved.
 
-    > **Difference between a use case and a controller: Controllers use use-cases, and use cases use repositories** domains are within a use case as well as repos
+Difference between a use case and a controller: Controllers use use-cases, and use cases use repositories** domains are within a use case as well as repos
 
-    There are **three** **use case** types:
-
-    1. **Request to do something** (CreateShipment, UpdateShipmentStatus)
-    2. **Query something** (GetShipments)
-    3. **Event Handler** (OrderReceivedEventHandler)
+There are **three** **use case** types:
+1. **Request to do something** (CreateShipment, UpdateShipmentStatus)
+2. **Query something** (GetShipments)
+3. **Event Handler** (OrderReceivedEventHandler)
 
 ## Domain Components
 
-- **Aggregates**
+### **Aggregates**
   An aggregate represents a cluster of related objects treated as a single unit. In this use case, the "Product" entity can be considered an aggregate root, encapsulating the product details and maintaining consistency within its boundaries.
 
 Aggregate Roots are *special* **Entities** with additional responsibilities: encapsulating other domain objects (e.g. **Entity** and **ValueObjects**) and controlling their access/visibility to the outside world. Aggregate roots extend the Entity API outlined above, adding support for their additional responsibilities.
@@ -76,7 +78,7 @@ An *Aggregate* is a Cluster of one or more *Entities*, and may also contain 
 
 If a business transaction needs a reference to other entities in relation, aggregates should be used instead (aggregates can hold a reference to other aggregate roots, which are entity classes by definition)
 
-- **Value Objects (VOs)**
+### **Value Objects (VOs)**
   The product details such as title, description, price, and quantity can be modeled as value objects. They are immutable and provide behavior and validation rules specific to their attributes.
 
 Value objects responsible for handling validation logic Where do we handle domain logic - as close to the entity as possible, otherwise domains ervices Repositories, Data Mappers, DTOs are tools to help us store, create, and delete domain entities - also known as data access logic must encapsulate data access logic
@@ -85,12 +87,12 @@ What differentiates a *Value Object* from an *Entity* is that, *Value Objec
 
 Prefer to put the behavior on value objects rather than on entities because value objects are immutable and do not have side effects (like changing their state or changing the state of any entity)
 
-- **Entity**
+### **Entity**
   An *Entity* is a potentially changeable object, which has a unique identifier. *Entities* have a life of their own within their *Domain Model*, which enables you to obtain the entire transition history of this *Entity*. Entities are a form of an object that represents something meaningful to our particular business domain. Domain objects that may have an id. We model an entity using a class
 
-| **Entities should be the first place that we think of to put domain logic**
+> **Entities should be the first place that we think of to put domain logic**
 
-- **Events**
+### **Events**
   *Events* indicate significant occurrences that have occurred in the domain and need to be reported to other stakeholders belonging to the domain. It is common for *Aggregates* to publish events.
 
 ## OOP Programming Concepts
@@ -110,8 +112,6 @@ Three Types of Dependency Injection:
 ### **Dependency Inversion**
 
 **Dependency Inversion** is a *design principle* that guides the structure of your code. **Dependency Inversion is a** design principle that suggests **high-level modules** or **classes** **should not depend on low-level modules** but **both should depend on abstractions**. It also states that **abstractions should not depend on details; details should depend on abstractions.**
-
-![Untitled](NodeJS%20-%20DDD%20&%20CA%20Architecture%20b5c83b61f4bf4a2b8d9c6bba77031f62/Untitled.png)
 
 **Dependency Inversion** is a principle proposed by **Robert C. Martin (Uncle Bob)** as part of the SOLID principles. It suggests that high-level modules should not depend on low-level modules; both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions.
 
