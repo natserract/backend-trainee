@@ -1,15 +1,13 @@
-import { Event } from "@node-ts/bus-messages";
+import { EventHandler } from "types-ddd";
 
-export class UserRegistered extends Event {
-  static readonly NAME = "org/account/user-registered";
-  $name = UserRegistered.NAME;
+import { UserEntity } from "~/modules/user/domain/entity/user";
+
+export class UserRegistered extends EventHandler<UserEntity> {
+  static readonly NAME = "user_registered";
+  $names = UserRegistered.NAME;
   $version = 0;
 
-  constructor(
-    readonly userId: number,
-    readonly email: string,
-    readonly phone?: string | null,
-  ) {
-    super();
+  async dispatch(model: UserEntity) {
+    console.log("User Registered", model);
   }
 }
