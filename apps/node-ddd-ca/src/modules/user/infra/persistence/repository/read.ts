@@ -32,7 +32,7 @@ export class UserReadRepository
   async findByUserId(userId: number): Promise<UserModel> {
     try {
       const res = await sequelize.query(
-        `SELECT * FROM users as User where User.id = ${userId} LIMIT 1`,
+        `SELECT * FROM users u where u.id = ${userId} LIMIT 1`,
         {
           plain: true,
           type: QueryTypes.SELECT,

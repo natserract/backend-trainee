@@ -1,4 +1,4 @@
-import type { Context } from "koa";
+import type { Context, Next } from "koa";
 import { injectable, inject } from "tsyringe";
 import Router from "@koa/router";
 
@@ -6,6 +6,7 @@ import Statuses from "~/shared/common/utils/statuses";
 import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
 import { UserGetUseCase } from "~/modules/user/application/usecase/get";
 import { BaseController } from "~/shared/infra/http/utils/base_controller";
+import { asyncLocalStorage } from "~/shared/infra/http/store";
 
 @injectable()
 export class UserController extends BaseController {
@@ -21,6 +22,26 @@ export class UserController extends BaseController {
 
   register() {
     this.router.get("/", this.getAll);
+
+    // resolve :userId
+    this.router.use("/:userId", async (ctx: Context, next: Next) => {
+      if (!ctx.params.userId) {
+        return await next();
+      }
+
+      const userId = parseInt(ctx.params.userId);
+      const user = await this.userGetUseCase.execute(userId);
+
+      const store = asyncLocalStorage.get();
+      await asyncLocalStorage.run(
+        {
+          ...store!,
+          user,
+        },
+        next,
+      );
+    });
+
     this.router.get("/:userId", this.get);
 
     return this.router;
@@ -37,8 +58,7 @@ export class UserController extends BaseController {
 
   get = async (ctx: Context) => {
     try {
-      const userId = parseInt(ctx.params.id);
-      const user = await this.userGetUseCase.execute(userId);
+      const user = asyncLocalStorage.get()!.user!;
 
       ctx.status = Statuses.OK;
       ctx.body = {
