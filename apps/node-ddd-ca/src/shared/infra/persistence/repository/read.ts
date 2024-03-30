@@ -6,7 +6,7 @@ import {
   OrderItem,
 } from "sequelize";
 
-import { NotFoundError } from "~/shared/common/utils/errors";
+import { NotFoundError } from "~/shared/infra/error";
 import {
   EagerLoad,
   IBaseFields,
