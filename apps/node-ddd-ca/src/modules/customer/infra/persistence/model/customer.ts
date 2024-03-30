@@ -24,10 +24,10 @@ export interface CustomerAttributes extends ICustomerAttributes {}
 export interface CustomerCreationAttributes
   extends Omit<CustomerAttributes, "id"> {}
 
-export class CustomerModel extends Model<
-  CustomerAttributes,
-  CustomerCreationAttributes
-> {
+export class CustomerModel
+  extends Model<CustomerAttributes, CustomerCreationAttributes>
+  implements CustomerAttributes
+{
   declare id: CreationOptional<number>;
   declare userId: number;
   declare name?: string | null;

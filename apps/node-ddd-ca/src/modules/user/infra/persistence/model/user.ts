@@ -12,9 +12,13 @@ export interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
 export interface UserUpdateAttributes
   extends Omit<UserCreationAttributes, "credentialUuid"> {}
 
-export class UserModel extends Model<UserAttributes, UserCreationAttributes> {
+export class UserModel
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
   declare id: CreationOptional<number>;
   declare credentialUuid: CreationOptional<string>;
+  declare password: string;
   declare email: string;
   declare phone?: string | null;
 
@@ -37,6 +41,10 @@ UserModel.init(
     email: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     phone: {
       type: DataTypes.STRING,

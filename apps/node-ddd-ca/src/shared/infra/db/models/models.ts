@@ -1,3 +1,4 @@
+import { AdminModel } from "~/modules/admin/infra/persistence/model/admin";
 import { CustomerModel } from "~/modules/customer/infra/persistence/model/customer";
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
 
@@ -6,6 +7,7 @@ import { connection } from "~/shared/infra/db/config/config";
 const sequelize = connection.sequelize;
 
 export const models: Record<string, any> = {
+  AdminModel,
   CustomerModel,
   UserModel,
 };

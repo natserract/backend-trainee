@@ -40,29 +40,35 @@ Layering is a common practice to separate and organise code units by their role/
 ## DDD & CA Components
 
 ### **Repositories:**
-  Repositories are classes or components that encapsulate the logic required to access data sources. They centralize common data access functionality, providing better maintainability and decoupling the infrastructure or technology used to access databases from the domain model layer. For each aggregate or aggregate root, you should create one repository class.
-  
+
+Repositories are classes or components that encapsulate the logic required to access data sources. They centralize common data access functionality, providing better maintainability and decoupling the infrastructure or technology used to access databases from the domain model layer. For each aggregate or aggregate root, you should create one repository class.
+
 ### **Controllers:**
-  A controller receives the request, maps it to the Application model, calls the appropriate application use case, and maps the result to the desired response entity. The controller converts the request into a request model and passes it to the use case interactor through its input port.
-  
-  Such request objects are usually simple data transfer objects (DTO). Depending on the view technology a request object may contain typed information (e.g. WPF) or just strings (e.g. HTML). It is the role of the controller to convert the given information into a format which is most convenient for and defined by the use case interactor. For that the controller may have some simple if-then-else or parser logic but we do not want to have any processing logic inside the controller.
+
+A controller receives the request, maps it to the Application model, calls the appropriate application use case, and maps the result to the desired response entity. The controller converts the request into a request model and passes it to the use case interactor through its input port.
+
+Such request objects are usually simple data transfer objects (DTO). Depending on the view technology a request object may contain typed information (e.g. WPF) or just strings (e.g. HTML). It is the role of the controller to convert the given information into a format which is most convenient for and defined by the use case interactor. For that the controller may have some simple if-then-else or parser logic but we do not want to have any processing logic inside the controller.
 
 Finally the controller simply calls an API on the use case interactor to trigger the processing.
 
 ### **Data Transfer Object:**
-  DTOs are used for transferring data between different layers of an application, often between the application’s backend and frontend. They are lightweight objects designed to carry data and do not contain any domain logic. DTOs help in reducing the amount of data transferred and provide a clear contract between different layers.
+
+DTOs are used for transferring data between different layers of an application, often between the application’s backend and frontend. They are lightweight objects designed to carry data and do not contain any domain logic. DTOs help in reducing the amount of data transferred and provide a clear contract between different layers.
 
 ### **Models:**
-  The term “Model” is quite generic and can refer to various things based on the context. In some cases, it might be used interchangeably with Domain Objects or Entities. However, in a broader context, the “Model” can refer to the representation of data that is used within the application. This can include both Domain Objects and DTOs.
+
+The term “Model” is quite generic and can refer to various things based on the context. In some cases, it might be used interchangeably with Domain Objects or Entities. However, in a broader context, the “Model” can refer to the representation of data that is used within the application. This can include both Domain Objects and DTOs.
 
 ### **Use Case:**
-  In **Clean Architecture**, a use case is a piece of business logic that represents a single task that the system needs to perform. The use case encapsulates the rules and logic required to perform the task, and defines the inputs and outputs required for the operation.
+
+In **Clean Architecture**, a use case is a piece of business logic that represents a single task that the system needs to perform. The use case encapsulates the rules and logic required to perform the task, and defines the inputs and outputs required for the operation.
 
 The use case is typically implemented as a standalone module (class or function), which is responsible for coordinating the flow of data between different layers of the system, such as the domain layer and the presentation layer. The use case is often triggered by a user action (clicking of a button) or an event (API call) in the system, and can result in changes to the state of the system or the data that is stored or retrieved.
 
-Difference between a use case and a controller: Controllers use use-cases, and use cases use repositories** domains are within a use case as well as repos
+Difference between a use case and a controller: Controllers use use-cases, and use cases use repositories\*\* domains are within a use case as well as repos
 
 There are **three** **use case** types:
+
 1. **Request to do something** (CreateShipment, UpdateShipmentStatus)
 2. **Query something** (GetShipments)
 3. **Event Handler** (OrderReceivedEventHandler)
@@ -70,7 +76,8 @@ There are **three** **use case** types:
 ## Domain Components
 
 ### **Aggregates**
-  An aggregate represents a cluster of related objects treated as a single unit. In this use case, the "Product" entity can be considered an aggregate root, encapsulating the product details and maintaining consistency within its boundaries.
+
+An aggregate represents a cluster of related objects treated as a single unit. In this use case, the "Product" entity can be considered an aggregate root, encapsulating the product details and maintaining consistency within its boundaries.
 
 Aggregate Roots are *special* **Entities** with additional responsibilities: encapsulating other domain objects (e.g. **Entity** and **ValueObjects**) and controlling their access/visibility to the outside world. Aggregate roots extend the Entity API outlined above, adding support for their additional responsibilities.
 
@@ -79,7 +86,8 @@ An *Aggregate* is a Cluster of one or more *Entities*, and may also contain 
 If a business transaction needs a reference to other entities in relation, aggregates should be used instead (aggregates can hold a reference to other aggregate roots, which are entity classes by definition)
 
 ### **Value Objects (VOs)**
-  The product details such as title, description, price, and quantity can be modeled as value objects. They are immutable and provide behavior and validation rules specific to their attributes.
+
+The product details such as title, description, price, and quantity can be modeled as value objects. They are immutable and provide behavior and validation rules specific to their attributes.
 
 Value objects responsible for handling validation logic Where do we handle domain logic - as close to the entity as possible, otherwise domains ervices Repositories, Data Mappers, DTOs are tools to help us store, create, and delete domain entities - also known as data access logic must encapsulate data access logic
 
@@ -88,12 +96,16 @@ What differentiates a *Value Object* from an *Entity* is that, *Value Objec
 Prefer to put the behavior on value objects rather than on entities because value objects are immutable and do not have side effects (like changing their state or changing the state of any entity)
 
 ### **Entity**
-  An *Entity* is a potentially changeable object, which has a unique identifier. *Entities* have a life of their own within their *Domain Model*, which enables you to obtain the entire transition history of this *Entity*. Entities are a form of an object that represents something meaningful to our particular business domain. Domain objects that may have an id. We model an entity using a class
+
+An *Entity* is a potentially changeable object, which has a unique identifier. *Entities* have a life of their own within their *Domain Model*, which enables you to obtain the entire transition history of this *Entity*. Entities are a form of an object that represents something meaningful to our particular business domain. Domain objects that may have an id. We model an entity using a class
 
 > **Entities should be the first place that we think of to put domain logic**
 
-### **Events**
-  *Events* indicate significant occurrences that have occurred in the domain and need to be reported to other stakeholders belonging to the domain. It is common for *Aggregates* to publish events.
+### **Events / Domain Event**
+
+*Events* indicate significant occurrences that have occurred in the domain and need to be reported to other stakeholders belonging to the domain. It is common for *Aggregates* to publish events.
+
+Domain Events enable decoupling parts (e.g. "sub domains") of your application.
 
 ## OOP Programming Concepts
 
@@ -130,9 +142,7 @@ In any large object oriented codebase, managing dependencies can get difficult. 
 
 When you need to test a particularly complicated class, setting up all its dependencies can take more time that writing the test itself! If you only need to mock a single subdependency, you need to instantiate everything all the way down until the mock is required, and then pass it in there.
 
-> A lightweight dependency injection container for TypeScript/JavaScript for constructor injection.
-
-[Tysringe](https://github.com/microsoft/tsyringe) allows you to tag a particular dependency as injectable with a decorator, and then very easily get an instance of it.
+[Tysringe](https://github.com/microsoft/tsyringe) is a lightweight dependency injection container for TypeScript/JavaScript for constructor injection. Allows you to tag a particular dependency as injectable with a decorator, and then very easily get an instance of it.
 
 At its core, [tsyringe](https://github.com/microsoft/tsyringe) provides you a dependency container that keeps track of all your dependencies. When you need to create an instance of a class, you can call `resolve` on the the container with an *injection token* and it will return you the right dependency registered under that token.
 
@@ -140,8 +150,9 @@ Adding tsyringe has definitely made managing our application dependencies and te
 
 ## Goods to reads:
 
+- https://www.dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_1.pdf
 - [https://www.thoughtworks.com/en-au/insights/blog/architecture/domain-driven-design-in-functional-programming](https://www.thoughtworks.com/en-au/insights/blog/architecture/domain-driven-design-in-functional-programming)
 - [https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/](https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/)
 - [https://antman-does-software.com/functional-domain-driven-design-simplified](https://antman-does-software.com/functional-domain-driven-design-simplified)
 - [https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3](https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3)
-- [https://www.youtube.com/watch?v=fhM0V2N1GpY&list=PLzYkqgWkHPKBcDIP5gzLfASkQyTdy0t4k&index=2](https://www.youtube.com/watch?v=fhM0V2N1GpY&list=PLzYkqgWkHPKBcDIP5gzLfASkQyTdy0t4k&index=2)
+- https://medium.com/@harry9.11.1985/domain-driven-design-domain-model-and-its-implementation-4878082e38e1
