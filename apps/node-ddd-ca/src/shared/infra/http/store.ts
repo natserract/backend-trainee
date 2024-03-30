@@ -1,10 +1,21 @@
 import { AsyncLocalStorage } from "async_hooks";
-import type { ParameterizedContext } from "koa";
 
-const storage = new AsyncLocalStorage<ParameterizedContext>();
+import { CustomerModel } from "~/modules/customer/infra/persistence/model/customer";
+import { UserModel } from "~/modules/user/infra/persistence/model/user";
+
+export interface IStore {
+  method: string;
+  url: string;
+
+  // keep-sorted start
+  customer?: CustomerModel;
+  user?: UserModel;
+}
+
+const storage = new AsyncLocalStorage<IStore>();
 
 export const asyncLocalStorage = {
-  async run(store: ParameterizedContext, cb: () => Promise<void>) {
+  async run(store: IStore, cb: () => Promise<void>) {
     return storage.run(store, cb);
   },
 

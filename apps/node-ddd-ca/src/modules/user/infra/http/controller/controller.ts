@@ -6,6 +6,10 @@ import Statuses from "~/shared/common/utils/statuses";
 import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
 import { UserGetUseCase } from "~/modules/user/application/usecase/get";
 import { BaseController } from "~/shared/infra/http/utils/base_controller";
+import {
+  GetAllResponseSchema,
+  GetAllResponse,
+} from "~/modules/user/infra/http/contract/api";
 import { asyncLocalStorage } from "~/shared/infra/http/store";
 
 @injectable()
@@ -51,9 +55,9 @@ export class UserController extends BaseController {
     const users = await this.userGetAllUseCase.execute();
 
     ctx.status = Statuses.OK;
-    ctx.body = {
+    ctx.body = this.generateResponse<GetAllResponse>(GetAllResponseSchema, {
       users,
-    };
+    });
   };
 
   get = async (ctx: Context) => {
