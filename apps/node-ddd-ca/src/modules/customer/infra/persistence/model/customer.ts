@@ -2,13 +2,14 @@ import {
   DataTypes,
   Model,
   Op,
+  CreationOptional,
+  NonAttribute,
   BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
   BelongsToCreateAssociationMixin,
 } from "sequelize";
 
 import {
-  User,
   UserModel,
   UserCreationAttributes,
 } from "~/modules/user/infra/persistence/model/user";
@@ -23,20 +24,32 @@ export interface CustomerAttributes extends ICustomerAttributes {}
 export interface CustomerCreationAttributes
   extends Omit<CustomerAttributes, "id"> {}
 
-export interface CustomerModel
-  extends Model<CustomerAttributes, CustomerCreationAttributes>,
-    CustomerAttributes {
-  // has one User
-  getUser: BelongsToGetAssociationMixin<UserModel>;
-  setUser: BelongsToSetAssociationMixin<UserCreationAttributes, UserModel>;
-  createUser: BelongsToCreateAssociationMixin<UserModel>;
+export class CustomerModel extends Model<
+  CustomerAttributes,
+  CustomerCreationAttributes
+> {
+  declare id: CreationOptional<number>;
+  declare userId: number;
+  declare name?: string | null;
+  declare notes?: string | null;
 
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
+  // Timestamps
+  declare readonly createdAt: CreationOptional<Date>;
+  declare readonly updatedAt: CreationOptional<Date>;
+
+  // Associations
+  declare User?: NonAttribute<UserModel>;
+
+  // Has one User
+  declare getUser: BelongsToGetAssociationMixin<UserModel>;
+  declare setUser: BelongsToSetAssociationMixin<
+    UserCreationAttributes,
+    UserModel
+  >;
+  declare createUser: BelongsToCreateAssociationMixin<UserModel>;
 }
 
-export const Customer = sequelize.define<CustomerModel>(
-  "Customer",
+CustomerModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -58,6 +71,7 @@ export const Customer = sequelize.define<CustomerModel>(
     },
   },
   {
+    sequelize,
     paranoid: true,
     tableName: "customers",
     indexes: [
@@ -73,7 +87,7 @@ export const Customer = sequelize.define<CustomerModel>(
 );
 
 // Associations
-Customer.belongsTo(User, {
+CustomerModel.belongsTo(UserModel, {
   targetKey: "id",
   foreignKey: "userId",
 });

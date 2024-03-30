@@ -3,7 +3,7 @@ import { singleton } from "tsyringe";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { BaseReadRepository } from "~/shared/infra/persistence/repository/read";
-import { UserModel, User } from "~/modules/user/infra/persistence/model/user";
+import { UserModel } from "~/modules/user/infra/persistence/model/user";
 
 const sequelize = connection.sequelize;
 
@@ -21,7 +21,7 @@ export class UserReadRepository
   implements IUserGetAllRepository, IUserGetByIdRepository
 {
   constructor() {
-    super(User);
+    super(UserModel);
   }
 
   async findAll(): Promise<UserModel[]> {
@@ -36,7 +36,7 @@ export class UserReadRepository
         {
           plain: true,
           type: QueryTypes.SELECT,
-          model: User,
+          model: UserModel,
           mapToModel: true,
         },
       );

@@ -1,13 +1,13 @@
-import { Customer } from "~/modules/customer/infra/persistence/model/customer";
-import { User } from "~/modules/user/infra/persistence/model/user";
+import { CustomerModel } from "~/modules/customer/infra/persistence/model/customer";
+import { UserModel } from "~/modules/user/infra/persistence/model/user";
 
 import { connection } from "~/shared/infra/db/config/config";
 
 const sequelize = connection.sequelize;
 
 export const models: Record<string, any> = {
-  Customer,
-  User,
+  CustomerModel,
+  UserModel,
 };
 
 export const initModels = async (withoutSync = false) => {

@@ -1,4 +1,4 @@
-import { DataTypes, Model, Op } from "sequelize";
+import { DataTypes, Model, Op, CreationOptional } from "sequelize";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { IUserAttributes } from "~/modules/user/domain/interface/user";
@@ -12,15 +12,18 @@ export interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
 export interface UserUpdateAttributes
   extends Omit<UserCreationAttributes, "credentialUuid"> {}
 
-export interface UserModel
-  extends Model<UserAttributes, UserCreationAttributes>,
-    UserAttributes {
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
+export class UserModel extends Model<UserAttributes, UserCreationAttributes> {
+  declare id: CreationOptional<number>;
+  declare credentialUuid: CreationOptional<string>;
+  declare email: string;
+  declare phone?: string | null;
+
+  // Timestamps
+  declare readonly createdAt: CreationOptional<Date>;
+  declare readonly updatedAt: CreationOptional<Date>;
 }
 
-export const User = sequelize.define<UserModel>(
-  "User",
+UserModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -41,6 +44,7 @@ export const User = sequelize.define<UserModel>(
     },
   },
   {
+    sequelize,
     tableName: "users",
     paranoid: true,
     indexes: [
