@@ -1,25 +1,20 @@
 import { Aggregate, Result, Ok } from "types-ddd";
 
-import {
-  IUserAttributes,
-  UserAttributesSchema,
-} from "~/modules/user/domain/interface/user";
-
+import { UserAttributesSchema } from "~/modules/user/domain/interface/user";
+import { UserCreationAttributes } from "~/modules/user/infra/persistence/model/user";
 import { UserRegistered } from "~/modules/user/domain/event/user_registered";
 
-export interface UserProperties extends IUserAttributes {}
-
-export class UserEntity extends Aggregate<UserProperties> {
-  private constructor(props: UserProperties) {
+export class UserEntity extends Aggregate<UserCreationAttributes> {
+  private constructor(props: UserCreationAttributes) {
     super(props);
   }
 
-  static isValidProps(props: IUserAttributes): boolean {
+  static isValidProps(props: UserCreationAttributes): boolean {
     const result = UserAttributesSchema.safeParse(props);
     return result.success;
   }
 
-  static begin(props: IUserAttributes): UserEntity {
+  static begin(props: UserCreationAttributes): UserEntity {
     const isValidRules = UserEntity.isValidProps(props);
 
     if (!isValidRules) {
@@ -37,7 +32,7 @@ export class UserEntity extends Aggregate<UserProperties> {
     return user;
   }
 
-  static create(props: IUserAttributes): Result<UserEntity> {
+  static create(props: UserCreationAttributes): Result<UserEntity> {
     return Ok(new UserEntity(props));
   }
 }
