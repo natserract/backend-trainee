@@ -17,12 +17,12 @@ export class UserReadRepository
     super(UserModel);
   }
 
-  async findAll(): Promise<UserModel[]> {
-    const users = this.getAll();
+  async getAll(): Promise<UserModel[]> {
+    const users = super.getAll();
     return users;
   }
 
-  async findByUserId(userId: number): Promise<UserModel> {
+  async getByUserId(userId: number): Promise<UserModel> {
     try {
       const res = await sequelize.query(
         `SELECT * FROM users u where u.id = ${userId} LIMIT 1`,

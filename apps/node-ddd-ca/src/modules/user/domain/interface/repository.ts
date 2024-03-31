@@ -2,11 +2,11 @@ import { UserModel } from "~/modules/user/infra/persistence/model/user";
 import { User } from "~/modules/user/domain/entity/user";
 
 export interface IUserGetAllRepository {
-  findAll(): Promise<UserModel[]>;
+  getAll(): Promise<UserModel[]>;
 }
 
 export interface IUserGetByIdRepository {
-  findByUserId(userId: number): Promise<UserModel>;
+  getByUserId(userId: number): Promise<UserModel>;
 }
 
 export interface IUserReadRepository

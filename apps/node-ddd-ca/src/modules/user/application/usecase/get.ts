@@ -11,7 +11,7 @@ export class UserGetUseCase {
   ) {}
 
   async execute(id: number): Promise<UserModel> {
-    const users = await this.repository.findByUserId(id);
+    const users = await this.repository.getByUserId(id);
     return users;
   }
 }
