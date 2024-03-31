@@ -2,7 +2,7 @@ import type { Context, Next } from "koa";
 import { injectable, inject } from "tsyringe";
 import Router from "@koa/router";
 
-import Statuses from "~/shared/common/utils/statuses";
+import HttpStatus from "~/shared/common/enums/http_status";
 import { BaseController } from "~/shared/infra/http/utils/base_controller";
 
 @injectable()
@@ -20,7 +20,7 @@ export class CustomerController extends BaseController {
   }
 
   create = async (ctx: Context) => {
-    ctx.status = Statuses.OK;
+    ctx.status = HttpStatus.OK;
     ctx.body = {
       data: "Created",
     };

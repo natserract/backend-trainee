@@ -2,7 +2,7 @@ import type { Context, Next } from "koa";
 import { injectable, inject } from "tsyringe";
 import Router from "@koa/router";
 
-import Statuses from "~/shared/common/utils/statuses";
+import HttpStatus from "~/shared/common/enums/http_status";
 import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
 import { UserGetUseCase } from "~/modules/user/application/usecase/get";
 import { BaseController } from "~/shared/infra/http/utils/base_controller";
@@ -54,7 +54,7 @@ export class UserController extends BaseController {
   getAll = async (ctx: Context) => {
     const users = await this.userGetAllUseCase.execute();
 
-    ctx.status = Statuses.OK;
+    ctx.status = HttpStatus.OK;
     ctx.body = this.generateResponse<GetAllResponse>(GetAllResponseSchema, {
       users,
     });
@@ -64,12 +64,12 @@ export class UserController extends BaseController {
     try {
       const user = asyncLocalStorage.get()!.user!;
 
-      ctx.status = Statuses.OK;
+      ctx.status = HttpStatus.OK;
       ctx.body = {
         user,
       };
     } catch (error) {
-      ctx.status = Statuses.SERVER_ERROR;
+      ctx.status = HttpStatus.INTERNAL_SERVER_ERROR;
       ctx.body = {
         error: "An error occurred while retrieving the user.",
       };
