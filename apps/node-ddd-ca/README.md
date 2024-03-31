@@ -32,45 +32,45 @@ At the heart of Clean Architecture is the idea that the business logic of an app
 
 Here's when and why you might choose not to use DDD or CA:
 
-1. Small Applications or Prototypes: For small-scale applications, prototypes, or proof-of-concept projects where the primary goal is to validate an idea quickly, the extensive upfront investment in modeling and design required by DDD may slow down the development process unnecessarily.
+1. **Small Applications or Prototypes**: For small-scale applications, prototypes, or proof-of-concept projects where the primary goal is to validate an idea quickly, the extensive upfront investment in modeling and design required by DDD may slow down the development process unnecessarily.
 
-2. Lack of Domain Complexity: DDD is particularly valuable in scenarios with high domain complexity. If the domain is not complex, the benefits of DDD diminish, and simpler development approaches could suffice and be more cost-effective.
+2. **Lack of Domain Complexity**: DDD is particularly valuable in scenarios with high domain complexity. If the domain is not complex, the benefits of DDD diminish, and simpler development approaches could suffice and be more cost-effective.
 
-3. Limited Resources or Expertise: DDD requires a certain level of expertise and experience, both in terms of software design and understanding the business domain. If a team lacks this expertise or is constrained in resources, implementing DDD might lead to suboptimal results.
+3. **Limited Resources or Expertise**: DDD requires a certain level of expertise and experience, both in terms of software design and understanding the business domain. If a team lacks this expertise or is constrained in resources, implementing DDD might lead to suboptimal results.
 
-4. Rapid Market Changes: In industries where market conditions and business requirements change rapidly, the time and effort invested in deep domain modeling may not pay off if the model becomes obsolete quickly.
+4. **Rapid Market Changes**: In industries where market conditions and business requirements change rapidly, the time and effort invested in deep domain modeling may not pay off if the model becomes obsolete quickly.
 
-5. Overhead for Small Teams: Small development teams might find the overhead of DDD's practices and abstractions burdensome, especially if they can achieve their goals with simpler methodologies.
+5. **Overhead for Small Teams**: Small development teams might find the overhead of DDD's practices and abstractions burdensome, especially if they can achieve their goals with simpler methodologies.
 
-6. Short-Lived Applications: For applications that are intended to be temporary or have a short lifespan, the investment in a DDD approach may not provide sufficient return on investment.
+6. **Short-Lived Applications**: For applications that are intended to be temporary or have a short lifespan, the investment in a DDD approach may not provide sufficient return on investment.
 
-7. Limited Collaboration with Domain Experts: Successful DDD implementation requires close collaboration with domain experts. If such collaboration is not feasible or if domain expertise is not readily available, the benefits of DDD can be severely limited.
+7. **Limited Collaboration with Domain Experts**: Successful DDD implementation requires close collaboration with domain experts. If such collaboration is not feasible or if domain expertise is not readily available, the benefits of DDD can be severely limited.
 
-8. When YAGNI (You Aren’t Gonna Need It) Applies: Sometimes, over-engineering a solution can be a pitfall. DDD might lead to complex designs where a simpler solution would suffice. This is especially true in cases where future requirements are uncertain or speculative.
+8. **When YAGNI (You Aren’t Gonna Need It) Applies**: Sometimes, over-engineering a solution can be a pitfall. DDD might lead to complex designs where a simpler solution would suffice. This is especially true in cases where future requirements are uncertain or speculative.
 
-9. Projects with Well-Defined Frameworks or Libraries: If a project primarily involves integrating existing frameworks or libraries with minimal domain complexity, the DDD approach may not add significant value.
+9. **Projects with Well-Defined Frameworks or Libraries**: If a project primarily involves integrating existing frameworks or libraries with minimal domain complexity, the DDD approach may not add significant value.
 
 ### So why using DDD ?
 
-1. Alignment with Business Needs: DDD emphasizes close collaboration with domain experts to ensure the software accurately reflects real-world scenarios and business logic. This alignment helps create more relevant and effective software solutions that directly address business needs.
+1. **Alignment with Business Needs**: DDD emphasizes close collaboration with domain experts to ensure the software accurately reflects real-world scenarios and business logic. This alignment helps create more relevant and effective software solutions that directly address business needs.
 
-2. Complexity Management: DDD is adept at managing complex domains by structuring and organizing the domain model effectively. It helps break down a complex domain into more manageable parts (like Aggregates, Entities, Value Objects), making it easier to work with and understand.
+2. **Complexity Management**: DDD is adept at managing complex domains by structuring and organizing the domain model effectively. It helps break down a complex domain into more manageable parts (like Aggregates, Entities, Value Objects), making it easier to work with and understand.
 
-3. Improved Communication: By using a ubiquitous language that is shared between developers and domain experts, DDD promotes clearer communication. This language is based on the domain itself, reducing misunderstandings and ambiguities in discussions and in the codebase.
+3. **Improved Communication**: By using a ubiquitous language that is shared between developers and domain experts, DDD promotes clearer communication. This language is based on the domain itself, reducing misunderstandings and ambiguities in discussions and in the codebase.
 
-4. Focus on Core Business Concepts: DDD encourages focusing on the core domain and its logic, rather than getting distracted by peripheral or technical concerns. This focus ensures that the most valuable and critical aspects of the software are given priority.
+4. **Focus on Core Business Concepts**: DDD encourages focusing on the core domain and its logic, rather than getting distracted by peripheral or technical concerns. This focus ensures that the most valuable and critical aspects of the software are given priority.
 
-5. Enhanced Flexibility and Scalability: The modular nature of DDD makes it easier to scale and evolve the system over time. Changes in one part of the domain model can often be made with minimal impact on other parts, which is crucial for long-term maintenance and evolution.
+5. **Enhanced Flexibility and Scalability**: The modular nature of DDD makes it easier to scale and evolve the system over time. Changes in one part of the domain model can often be made with minimal impact on other parts, which is crucial for long-term maintenance and evolution.
 
-6. Facilitates Iterative Development: DDD is well-suited to agile and iterative development processes. It allows for evolving models and continuous refinement based on real-world feedback, which is vital for adapting to changing business requirements.
+6. **Facilitates Iterative Development**: DDD is well-suited to agile and iterative development processes. It allows for evolving models and continuous refinement based on real-world feedback, which is vital for adapting to changing business requirements.
 
-7. Better Domain Insights: DDD helps uncover deeper insights into the domain, which can lead to more innovative solutions. Through the process of exploring and modeling the domain, hidden concepts and relationships often emerge, providing valuable new perspectives.
+7. **Better Domain Insights**: DDD helps uncover deeper insights into the domain, which can lead to more innovative solutions. Through the process of exploring and modeling the domain, hidden concepts and relationships often emerge, providing valuable new perspectives.
 
-8. Reduced Risk of Failure: By ensuring that the software closely matches the domain complexities and business requirements, DDD reduces the risk of building the wrong thing. This alignment with business needs is crucial for delivering successful software projects.
+8. **Reduced Risk of Failure**: By ensuring that the software closely matches the domain complexities and business requirements, DDD reduces the risk of building the wrong thing. This alignment with business needs is crucial for delivering successful software projects.
 
-9. Long-term Maintainability: A well-structured DDD application tends to be more maintainable in the long run. The separation of concerns, clear boundaries, and explicit models all contribute to a codebase that is easier to understand, modify, and extend.
+9. **Long-term Maintainability**: A well-structured DDD application tends to be more maintainable in the long run. The separation of concerns, clear boundaries, and explicit models all contribute to a codebase that is easier to understand, modify, and extend.
 
-10. Suitability for Complex Systems: DDD excels in situations where the domain is complex and the cost of failure is high. In such scenarios, the benefits of a deep understanding of the domain and a model that faithfully represents it are particularly significant.
+10. **Suitability for Complex Systems**: DDD excels in situations where the domain is complex and the cost of failure is high. In such scenarios, the benefits of a deep understanding of the domain and a model that faithfully represents it are particularly significant.
 
 ## Architecture Layers
 
@@ -161,11 +161,11 @@ OOP is about decomposing problems into smaller classes and modules, bite-sized c
 
 Dependency injection (DI abbreviated) is a technique that **removes internal dependencies** from the implementation by enabling these dependencies to be injected externally. All of this is a subset of Inversion of Control Principle (IoC abbreviated). It’s a technique where objects receive their dependencies from an **external source** rather than creating them internally. This external source can be provided through constructors, properties, or methods.
 
-Three Types of Dependency Injection:
+**Three Types of Dependency Injection:**
 
-1. Constructor Injection
-2. Setter Injection
-3. Interface Injection
+1. **Constructor Injection**
+2. **Setter Injection**
+3. **Interface Injection**
 
 ### **Dependency Inversion**
 
@@ -196,9 +196,9 @@ Adding tsyringe has definitely made managing our application dependencies and te
 
 ## Goods to reads:
 
+- https://medium.com/@harry9.11.1985/domain-driven-design-domain-model-and-its-implementation-4878082e38e1
 - https://www.dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_1.pdf
 - [https://www.thoughtworks.com/en-au/insights/blog/architecture/domain-driven-design-in-functional-programming](https://www.thoughtworks.com/en-au/insights/blog/architecture/domain-driven-design-in-functional-programming)
 - [https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/](https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/)
 - [https://antman-does-software.com/functional-domain-driven-design-simplified](https://antman-does-software.com/functional-domain-driven-design-simplified)
 - [https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3](https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3)
-- https://medium.com/@harry9.11.1985/domain-driven-design-domain-model-and-its-implementation-4878082e38e1
