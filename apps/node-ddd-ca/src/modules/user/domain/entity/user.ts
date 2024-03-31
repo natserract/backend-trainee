@@ -2,15 +2,27 @@ import { Aggregate, Result } from "types-ddd";
 
 import { UserCreationAttributes } from "~/modules/user/infra/persistence/model/user";
 import { UserAdded } from "~/modules/user/domain/event/user_added";
+import {
+  CreateUserDTO,
+  CreateUserDTOSchema,
+} from "~/modules/user/application/dto/dto";
 
-export class UserEntity extends Aggregate<UserCreationAttributes> {
+export class User extends Aggregate<UserCreationAttributes> {
   private constructor(props: UserCreationAttributes) {
     super(props);
   }
 
-  static create(props: UserCreationAttributes): Result<UserEntity> {
+  static isValidProps(dto: CreateUserDTO): boolean {
+    const schema = CreateUserDTOSchema.safeParse(dto);
+    return schema.success;
+  }
+
+  static create(props: UserCreationAttributes): Result<User> {
+    const isValidProps = User.isValidProps(props);
+    if (!isValidProps) return Result.fail("Invalid props!");
+
+    const user = new User(props);
     const userAdded = new UserAdded();
-    const user = new UserEntity(props);
 
     // event is applied to the user object
     user.addEvent(userAdded);

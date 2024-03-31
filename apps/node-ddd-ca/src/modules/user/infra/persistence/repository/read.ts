@@ -4,21 +4,14 @@ import { singleton } from "tsyringe";
 import { connection } from "~/shared/infra/db/config/config";
 import { BaseReadRepository } from "~/shared/infra/persistence/repository/read";
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
+import { IUserReadRepository } from "~/modules/user/domain/interface/repository";
 
 const sequelize = connection.sequelize;
-
-export interface IUserGetAllRepository {
-  findAll(): Promise<UserModel[]>;
-}
-
-export interface IUserGetByIdRepository {
-  findByUserId(userId: number): Promise<UserModel>;
-}
 
 @singleton()
 export class UserReadRepository
   extends BaseReadRepository<UserModel>
-  implements IUserGetAllRepository, IUserGetByIdRepository
+  implements IUserReadRepository
 {
   constructor() {
     super(UserModel);

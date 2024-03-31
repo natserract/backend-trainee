@@ -1,8 +1,8 @@
 import { EventHandler } from "types-ddd";
 
-import { CustomerEntity } from "~/modules/customer/domain/entity/customer";
+import { Customer } from "~/modules/customer/domain/entity/customer";
 
-export class CustomerUserCreated extends EventHandler<CustomerEntity> {
+export class CustomerUserCreated extends EventHandler<Customer> {
   static readonly NAME = "customer_user_created";
   $names = CustomerUserCreated.NAME;
   $version = 0;
@@ -13,7 +13,8 @@ export class CustomerUserCreated extends EventHandler<CustomerEntity> {
     });
   }
 
-  async dispatch(model: CustomerEntity) {
+  async dispatch(aggregate: Customer) {
+    const model = aggregate.toObject();
     console.log("Customer User Created", model);
   }
 }

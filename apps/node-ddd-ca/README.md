@@ -143,6 +143,8 @@ Prefer to put the behavior on value objects rather than on entities because valu
 
 An *Entity* is a potentially changeable object, which has a unique identifier. *Entities* have a life of their own within their *Domain Model*, which enables you to obtain the entire transition history of this *Entity*. Entities are a form of an object that represents something meaningful to our particular business domain. Domain objects that may have an id. We model an entity using a class
 
+> Assume that we have a social network and have entities like Post, Like, Comment, Tag. (I believe you can imagine the relations between these entities) Some of the entities are "Aggregate Root". To find the aggregate root(s) I try to find which entities cannot live without the other. For instance, Like or Comment cannot live without a Post. Then Post is an aggregate root and we need a PostRepository or turn the Post entity into a Repository (the famous collection like interface thing).
+
 > **Entities should be the first place that we think of to put domain logic**
 
 ### **Events / Domain Event**
