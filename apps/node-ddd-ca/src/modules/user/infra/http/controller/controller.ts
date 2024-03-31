@@ -3,9 +3,10 @@ import { injectable, inject } from "tsyringe";
 import Router from "@koa/router";
 
 import HttpStatus from "~/shared/common/enums/http_status";
+import { BaseController } from "~/shared/infra/http/utils/base_controller";
 import { UserGetAllUseCase } from "~/modules/user/application/usecase/get_all";
 import { UserGetUseCase } from "~/modules/user/application/usecase/get";
-import { BaseController } from "~/shared/infra/http/utils/base_controller";
+import { UserCreateUseCase } from "~/modules/user/application/usecase/create";
 import {
   GetAllResponseSchema,
   GetAllResponse,
@@ -19,6 +20,7 @@ export class UserController extends BaseController {
   constructor(
     @inject(UserGetAllUseCase) private userGetAllUseCase: UserGetAllUseCase,
     @inject(UserGetUseCase) private userGetUseCase: UserGetUseCase,
+    @inject(UserCreateUseCase) private userCreateUseCase: UserCreateUseCase,
   ) {
     super();
     this.router = new Router();
@@ -26,6 +28,7 @@ export class UserController extends BaseController {
 
   register() {
     this.router.get("/", this.getAll);
+    this.router.post("/", this.create);
 
     // resolve :userId
     this.router.use("/:userId", async (ctx: Context, next: Next) => {
@@ -72,6 +75,34 @@ export class UserController extends BaseController {
       ctx.status = HttpStatus.INTERNAL_SERVER_ERROR;
       ctx.body = {
         error: "An error occurred while retrieving the user.",
+      };
+    }
+  };
+
+  create = async (ctx: ContextRequest) => {
+    try {
+      const dto = <any>ctx.request.fields;
+      const useCase = await this.userCreateUseCase.execute(dto);
+
+      if (useCase.isFail()) {
+        ctx.status = HttpStatus.BAD_REQUEST;
+        ctx.body = {
+          error: useCase.error(),
+        };
+
+        return;
+      }
+
+      ctx.status = HttpStatus.OK;
+      ctx.body = {
+        user: useCase.value(),
+      };
+    } catch (error) {
+      console.log("error", error);
+
+      ctx.status = HttpStatus.INTERNAL_SERVER_ERROR;
+      ctx.body = {
+        error: "An error occurred while creating the user.",
       };
     }
   };

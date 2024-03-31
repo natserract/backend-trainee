@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const CustomerAttributesSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string().nullish(),
-  userId: z.number(),
+  userId: z.string(),
   notes: z.string().nullish(),
 });
 

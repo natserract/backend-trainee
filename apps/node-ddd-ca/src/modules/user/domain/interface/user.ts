@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 export const UserAttributesSchema = z.object({
-  id: z.number(),
-  credentialUuid: z.string().uuid(),
+  id: z.string().uuid(),
   password: z.string(),
   email: z.string().email(),
   phone: z.string().nullish(),

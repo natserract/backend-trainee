@@ -1,7 +1,7 @@
 import type * as Koa from "koa";
 
 declare global {
-  interface ServerContext extends Koa.Context {
+  interface ContextRequest extends Koa.Context {
     request: Koa.Request & {
       fields: {};
     };

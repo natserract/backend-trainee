@@ -16,8 +16,7 @@ export class UserModel
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  declare id: CreationOptional<number>;
-  declare credentialUuid: CreationOptional<string>;
+  declare id: CreationOptional<string>;
   declare password: string;
   declare email: string;
   declare phone?: string | null;
@@ -30,13 +29,9 @@ export class UserModel
 UserModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-    },
-    credentialUuid: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,

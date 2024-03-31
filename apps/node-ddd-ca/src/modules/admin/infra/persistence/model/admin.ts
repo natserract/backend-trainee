@@ -14,8 +14,8 @@ export class AdminModel
   extends Model<AdminAttributes, AdminCreationAttributes>
   implements AdminAttributes
 {
-  declare id: CreationOptional<number>;
-  declare userId: number;
+  declare id: CreationOptional<string>;
+  declare userId: string;
 
   // Associations
   declare User?: NonAttribute<UserModel>;
@@ -28,12 +28,12 @@ export class AdminModel
 AdminModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
     },
   },

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const AdminAttributesSchema = z.object({
-  id: z.number(),
-  userId: z.number(),
+  id: z.string(),
+  userId: z.string(),
 });
 
 export interface IAdminAttributes

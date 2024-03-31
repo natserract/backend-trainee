@@ -5,19 +5,19 @@ import { UserWriteRepository } from "~/modules/user/infra/persistence/repository
 import type { IUserCreateRepository } from "~/modules/user/domain/interface/repository";
 import { CreateUserDTO } from "~/modules/user/application/dto/dto";
 import { User } from "~/modules/user/domain/entity/user";
+import { UserModel } from "~/modules/user/infra/persistence/model/user";
 
 @injectable()
 export class UserCreateUseCase
-  implements IUseCase<CreateUserDTO, Result<User>>
+  implements IUseCase<CreateUserDTO, Result<UserModel, string>>
 {
   constructor(
     @inject(UserWriteRepository) private repository: IUserCreateRepository,
   ) {}
 
-  async execute(dto: CreateUserDTO): Promise<Result<User>> {
+  async execute(dto: CreateUserDTO): Promise<Result<UserModel, string>> {
     const user = User.create({
       email: dto.email,
-      credentialUuid: dto.credentialUuid,
       password: dto.password,
       phone: dto.phone,
     });

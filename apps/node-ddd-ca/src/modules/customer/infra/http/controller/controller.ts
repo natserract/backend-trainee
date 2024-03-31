@@ -1,5 +1,5 @@
-import type { Context, Next } from "koa";
-import { injectable, inject } from "tsyringe";
+import type { Context } from "koa";
+import { injectable } from "tsyringe";
 import Router from "@koa/router";
 
 import HttpStatus from "~/shared/common/enums/http_status";

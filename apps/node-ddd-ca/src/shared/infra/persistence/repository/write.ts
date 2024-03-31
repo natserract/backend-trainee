@@ -6,6 +6,7 @@ import {
 import { Aggregate, EntityProps } from "types-ddd";
 
 import { connection } from "~/shared/infra/db/config/config";
+import { AggregateNotFound } from "~/shared/infra/error";
 
 const sequelize = connection.sequelize;
 
@@ -21,13 +22,30 @@ export abstract class BaseWriteRepository<
     this.model = model;
   }
 
+  async getById(id: AggregateRootType["id"]): Promise<WriteModelType> {
+    const writeModel = await this.model.findOne({
+      where: {
+        // tslint:disable-next-line:no-any Can't wrangle correct type
+        id: id as any,
+      },
+    });
+
+    if (!writeModel) {
+      throw new AggregateNotFound(this.model.name, id);
+    }
+
+    return writeModel;
+  }
+
   async create(
     aggregateRoot: AggregateRootType,
     parentTransaction?: TransactionSequelize,
-  ): Promise<any> {
+  ): Promise<WriteModelType> {
     const values = Object.assign(aggregateRoot.toObject());
+
     return this.model.create(values, {
       transaction: parentTransaction,
+      returning: true,
     });
   }
 
