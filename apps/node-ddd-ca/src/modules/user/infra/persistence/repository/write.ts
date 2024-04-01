@@ -1,5 +1,9 @@
 import { singleton } from "tsyringe";
-import { Transaction as TransactionSequelize } from "sequelize";
+import {
+  Transaction as TransactionSequelize,
+  CreateOptions,
+  Attributes,
+} from "sequelize";
 
 import { BaseWriteRepository } from "~/shared/infra/persistence/repository/write";
 import { IUserWriteRepository } from "~/modules/user/domain/interface/repository";
@@ -18,14 +22,14 @@ export class UserWriteRepository
     super(UserModel);
   }
 
-  async create(
+  async save(
     user: User,
     parentTransaction?: TransactionSequelize,
-  ): Promise<UserModel> {
+  ): Promise<User> {
     return BaseWriteRepository.beginTransaction(
       { t: parentTransaction },
       async (t) => {
-        return super.create(user, t);
+        return super.save(user, t);
       },
     );
   }

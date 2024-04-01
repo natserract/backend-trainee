@@ -37,16 +37,16 @@ export abstract class BaseWriteRepository<
     return writeModel;
   }
 
-  async create(
+  async save(
     aggregateRoot: AggregateRootType,
     parentTransaction?: TransactionSequelize,
-  ): Promise<WriteModelType> {
+  ): Promise<AggregateRootType> {
     const values = Object.assign(aggregateRoot.toObject());
-
-    return this.model.create(values, {
+    const writeModel = await this.model.create(values, {
       transaction: parentTransaction,
-      returning: true,
     });
+
+    return this.toAggregateRoot(writeModel);
   }
 
   static async beginTransaction<T>(
@@ -71,5 +71,13 @@ export abstract class BaseWriteRepository<
       }
       throw err;
     }
+  }
+
+  /**
+   * Converts a model fetched from the data store into an aggregate instance
+   * @param model Data model fetched from the database, includes any aggregate child entities
+   */
+  protected toAggregateRoot(model: WriteModelType): AggregateRootType {
+    return Object.assign(model);
   }
 }

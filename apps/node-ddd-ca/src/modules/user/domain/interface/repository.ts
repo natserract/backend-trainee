@@ -14,7 +14,7 @@ export interface IUserReadRepository
     IUserGetByIdRepository {}
 
 export interface IUserCreateRepository {
-  create(user: User): Promise<UserModel>;
+  save(user: User): Promise<User>;
 }
 
 export interface IUserWriteRepository extends IUserCreateRepository {}
