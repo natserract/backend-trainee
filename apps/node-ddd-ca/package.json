@@ -41,7 +41,6 @@
     "@koa/router": "^12.0.1",
     "@node-ts/bus-core": "^1.1.7",
     "@node-ts/bus-messages": "^1.1.0",
-    "@node-ts/logger-core": "^0.1.1",
     "dotenv": "^16.4.5",
     "koa": "^2.15.0",
     "koa-better-body": "^3.3.9",
