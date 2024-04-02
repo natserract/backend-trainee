@@ -8,6 +8,7 @@ import context from "~/shared/infra/http/middleware/context";
 import cors from "~/shared/infra/http/middleware/cors";
 import security from "~/shared/infra/http/middleware/security";
 import logger from "~/shared/infra/http/middleware/logger";
+import sentry from "~/shared/infra/external/sentry";
 
 const registerApplicationMiddlewares = async (app: Koa) => {
   app
@@ -16,6 +17,7 @@ const registerApplicationMiddlewares = async (app: Koa) => {
     .use(body())
     .use(cors)
     .use(logger)
+    .use(sentry.middleware)
     .use(async (ctx: Context, next: Next) => {
       const reqId = `${os.hostname}-${uuidv4()}`;
       ctx.set("App-X-RequestId", reqId);

@@ -1,46 +1,40 @@
 import { Sequelize } from "sequelize";
 import { SequelizeStorage, Umzug } from "umzug";
 
-import {
-  DB_USER,
-  DB_HOST,
-  DB_PASS,
-  DB_DATABASE,
-} from "~/configs/database_config";
-import { APP_ENV } from "~/configs/app_config";
+import Config from "~/configs";
 
 const databaseCredentials = {
   development: {
-    username: DB_USER,
-    password: DB_PASS,
-    database: DB_DATABASE,
-    host: DB_HOST,
+    username: Config.DB_USER,
+    password: Config.DB_PASS,
+    database: Config.DB_DATABASE,
+    host: Config.DB_HOST,
     dialect: "postgresql",
   },
   test: {
-    username: DB_USER,
-    password: DB_PASS,
-    database: DB_DATABASE,
-    host: DB_HOST,
+    username: Config.DB_USER,
+    password: Config.DB_PASS,
+    database: Config.DB_DATABASE,
+    host: Config.DB_HOST,
     dialect: "postgresql",
   },
   production: {
-    username: DB_USER,
-    password: DB_PASS,
-    database: DB_DATABASE,
-    host: DB_HOST,
+    username: Config.DB_USER,
+    password: Config.DB_PASS,
+    database: Config.DB_DATABASE,
+    host: Config.DB_HOST,
     dialect: "postgresql",
   },
 };
 
-console.log(`Connecting to the database in ${APP_ENV} mode`);
+console.log(`Connecting to the database in ${Config.APP_ENV} mode`);
 export const connection: { sequelize: Sequelize } = {
   sequelize: new Sequelize(
-    databaseCredentials[APP_ENV]["database"],
-    databaseCredentials[APP_ENV]["username"],
-    databaseCredentials[APP_ENV]["password"],
+    databaseCredentials[Config.APP_ENV]["database"],
+    databaseCredentials[Config.APP_ENV]["username"],
+    databaseCredentials[Config.APP_ENV]["password"],
     {
-      host: databaseCredentials[APP_ENV]["host"],
+      host: databaseCredentials[Config.APP_ENV]["host"],
       dialect: "postgres",
       pool: {
         max: 40,

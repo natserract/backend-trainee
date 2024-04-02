@@ -1,16 +1,11 @@
-import dotenv from "dotenv";
 import Koa from "koa";
 import { injectable } from "tsyringe";
 
-import { APP_PORT } from "~/configs/app_config";
-
+import Config from "~/configs";
 import { initDB, initMigration } from "~/shared/infra/db/config/config";
 import { initModels } from "~/shared/infra/db/models/models";
-
 import registerApplicationMiddlewares from "~/shared/infra/http/middleware";
 import registerApplicationRouters from "~/shared/infra/http/controller";
-
-dotenv.config();
 
 @injectable()
 export class HttpServer {
@@ -30,8 +25,8 @@ export class HttpServer {
     await registerApplicationMiddlewares(app);
     await registerApplicationRouters(app);
 
-    app.listen(APP_PORT, () => {
-      console.log(`Server available at http://localhost:${APP_PORT}`);
+    app.listen(Config.APP_PORT, () => {
+      console.log(`Server available at http://localhost:${Config.APP_PORT}`);
     });
   }
 }
