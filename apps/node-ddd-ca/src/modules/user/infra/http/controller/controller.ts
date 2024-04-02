@@ -30,14 +30,14 @@ export class UserController extends BaseController {
     this.router.get("/", this.getAll);
     this.router.post("/", this.create);
 
-    // resolve :userId
-    this.router.use("/:userId", async (ctx: Context, next: Next) => {
-      if (!ctx.params.userId) {
+    // resolve :userUuid
+    this.router.use("/:userUuid", async (ctx: Context, next: Next) => {
+      if (!ctx.params.userUuid) {
         return await next();
       }
 
-      const userId = parseInt(ctx.params.userId);
-      const user = await this.userGetUseCase.execute(userId);
+      const userUuid = ctx.params.userUuid;
+      const user = await this.userGetUseCase.execute(userUuid);
 
       const store = asyncLocalStorage.get();
       await asyncLocalStorage.run(

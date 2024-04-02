@@ -6,7 +6,7 @@ export interface IUserGetAllRepository {
 }
 
 export interface IUserGetByIdRepository {
-  getByUserId(userId: number): Promise<UserModel>;
+  getByUserUuid(userUuid: string): Promise<UserModel>;
 }
 
 export interface IUserReadRepository

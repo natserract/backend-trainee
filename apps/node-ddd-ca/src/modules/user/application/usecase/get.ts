@@ -11,8 +11,8 @@ export class UserGetUseCase implements IUseCase<unknown, UserModel> {
     @inject(UserReadRepository) private repository: IUserGetByIdRepository,
   ) {}
 
-  async execute(id: number): Promise<UserModel> {
-    const users = await this.repository.getByUserId(id);
+  async execute(userUuid: string): Promise<UserModel> {
+    const users = await this.repository.getByUserUuid(userUuid);
     return users;
   }
 }

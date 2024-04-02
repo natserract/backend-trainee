@@ -1,5 +1,3 @@
-import { injectable } from "tsyringe";
-
 import { clc, yellow } from "~/shared/packages/logger/colors-util";
 import {
   isString,
@@ -38,7 +36,6 @@ const dateTimeFormatter = new Intl.DateTimeFormat(undefined, {
 
 // Adapted from NestJS - Console Logger
 // https://github.com/nestjs/nest/blob/master/packages/common/services/console-logger.service.ts
-@injectable()
 export class Logger implements ILogger {
   private static lastTimestampAt?: number;
   private context?: string;
@@ -281,4 +278,8 @@ export class Logger implements ILogger {
         return clc.green;
     }
   }
+}
+
+export function useLogger(context?: string, options?: LoggerOptions) {
+  return new Logger(context, options);
 }

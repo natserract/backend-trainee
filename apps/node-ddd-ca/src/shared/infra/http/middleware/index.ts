@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import context from "~/shared/infra/http/middleware/context";
 import cors from "~/shared/infra/http/middleware/cors";
 import security from "~/shared/infra/http/middleware/security";
+import logger from "~/shared/infra/http/middleware/logger";
 
 const registerApplicationMiddlewares = async (app: Koa) => {
   app
@@ -14,6 +15,7 @@ const registerApplicationMiddlewares = async (app: Koa) => {
     .use(security)
     .use(body())
     .use(cors)
+    .use(logger)
     .use(async (ctx: Context, next: Next) => {
       const reqId = `${os.hostname}-${uuidv4()}`;
       ctx.set("App-X-RequestId", reqId);
