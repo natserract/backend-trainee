@@ -194,6 +194,16 @@ At its core, [tsyringe](https://github.com/microsoft/tsyringe) provides you a de
 
 Adding tsyringe has definitely made managing our application dependencies and testing code much easier, with a dependency injection framework, we now have a much more manageable solution to dealing with our large dependency tree.
 
+## What's inside?
+
+- [x] KoaJS
+- [x] Sequelize
+- [x] Inversion of Control (IoC) container
+- [x] Sentry
+- [ ] OpenAPI (Swagger)
+- [ ] Jest, Chai
+- [ ] PM2
+
 ## Goods to reads:
 
 - https://medium.com/@harry9.11.1985/domain-driven-design-domain-model-and-its-implementation-4878082e38e1
