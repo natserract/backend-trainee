@@ -204,7 +204,7 @@ Adding tsyringe has definitely made managing our application dependencies and te
 - [ ] Jest, Chai
 - [ ] PM2
 
-## Goods to reads:
+## Good to reads:
 
 - https://medium.com/@harry9.11.1985/domain-driven-design-domain-model-and-its-implementation-4878082e38e1
 - https://www.dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_1.pdf
