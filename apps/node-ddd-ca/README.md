@@ -200,9 +200,7 @@ Adding tsyringe has definitely made managing our application dependencies and te
 - [x] Sequelize
 - [x] Inversion of Control (IoC) container
 - [x] Sentry
-- [ ] OpenAPI (Swagger)
 - [ ] Jest, Chai
-- [ ] PM2
 
 ## Good to reads:
 
