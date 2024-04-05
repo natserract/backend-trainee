@@ -20,7 +20,7 @@ export class UserController extends BaseController {
   constructor(
     @inject(UserGetAllUseCase) private userGetAllUseCase: UserGetAllUseCase,
     @inject(UserGetUseCase) private userGetUseCase: UserGetUseCase,
-    @inject(UserCreateUseCase) private userCreateUseCase: UserCreateUseCase,
+    @inject(UserCreateUseCase) private userCreateUseCase: UserCreateUseCase
   ) {
     super();
     this.router = new Router();
@@ -45,7 +45,7 @@ export class UserController extends BaseController {
           ...store!,
           user,
         },
-        next,
+        next
       );
     });
 
@@ -81,8 +81,8 @@ export class UserController extends BaseController {
 
   create = async (ctx: ContextRequest) => {
     try {
-      const dto = <any>ctx.request.fields;
-      const useCase = await this.userCreateUseCase.execute(dto);
+      const payload = <any>ctx.request.fields;
+      const useCase = await this.userCreateUseCase.execute(payload);
 
       if (useCase.isFail()) {
         ctx.status = HttpStatus.BAD_REQUEST;

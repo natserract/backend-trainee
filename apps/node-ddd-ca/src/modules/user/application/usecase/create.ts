@@ -15,7 +15,7 @@ export class UserCreateUseCase
   implements IUseCase<CreateUserDTO, Result<User, string>>
 {
   constructor(
-    @inject(UserWriteRepository) private repository: IUserCreateRepository,
+    @inject(UserWriteRepository) private repository: IUserCreateRepository
   ) {}
 
   async execute(dto: CreateUserDTO): Promise<Result<User, string>> {

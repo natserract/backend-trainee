@@ -147,6 +147,36 @@ An *Entity* is a potentially changeable object, which has a unique identifier.
 
 > **Entities should be the first place that we think of to put domain logic**
 
+### Factory Pattern
+
+A [Factory](https://culttt.com/2014/12/24/factories-domain-driven-design) is an object that has the single responsibility of creating other objects. In either case, when something has the responsibility for creating another object, it’s called a **Factory**.
+
+> For example, we might have a payment gateway Factory that should provide a class for accepting payments from customers to any one of many payment gateways.
+
+#### Why Is It So Important?
+
+The Factory Design Pattern is pivotal for three primary reasons:
+
+1. Loose coupling: The factory encapsulates the creation details and returns an instance of a common interface, ensuring that the main application isn’t tightly bound to the specific object types.
+2. Code reusability and modularity: Centralizing object creation in a single place naturally promotes reusability. It also makes the system more modular since any changes in object creation only affect the factory, not the consumer.
+3. Flexibility and scalability: When a new object type needs to be added, only the factory needs an update. The consumer code remains untouched, making the system scalable and easy to maintain.
+
+#### When Should We Use It?
+
+Factory Pattern shines in scenarios where:
+
+- A class cannot anticipate the type of objects it needs to create.
+- A class delegates responsibilities to helper subclasses, and the knowledge of which helper class is the best suited for the job needs to be localized.
+- Objects created share a common interface, but their specific type might be determined at runtime.
+
+### Strategy Pattern
+
+The Strategy pattern allows us to dynamically swap out algorithms (i.e. application logic) at runtime. Strategy design pattern is a behavioural design pattern that allows a class to switch/run an algorithm at runtime. Instead of implementing a single algorithm directly, your class receives run-time instructions as to which strategy to use in a family of algorithms.
+
+![](https://media.licdn.com/dms/image/D4E12AQEewQ7rcKVNPg/article-inline_image-shrink_1500_2232/0/1704809593689?e=1717632000&v=beta&t=KEJn5yttVYS8dq1tNCbMkHx2XQDmiDCD5qluIeSGyTo)
+
+> The Factory and Strategy patterns are not about simplifying the code but rather **about organizing it in a way that makes it more maintainable, scalable, flexible, and testable, especially as the size and complexity of the software grow**.
+
 ### **Events / Domain Event**
 
 *Events* indicate significant occurrences that have occurred in the domain and need to be reported to other stakeholders belonging to the domain. It is common for *Aggregates* to publish events.
@@ -200,7 +230,7 @@ Adding tsyringe has definitely made managing our application dependencies and te
 - [x] Sequelize
 - [x] Inversion of Control (IoC) container
 - [x] Sentry
-- [ ] Jest, Chai
+- [ ] Chai
 
 ## Good to reads:
 
