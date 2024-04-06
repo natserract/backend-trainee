@@ -4,6 +4,7 @@ import { fromZodError } from "zod-validation-error";
 import { Transaction as TransactionSequelize } from "sequelize";
 
 import Config from "~/configs";
+
 import { User } from "~/modules/user/domain/entity/user";
 import {
   CreateUserDTO,
@@ -11,7 +12,6 @@ import {
 } from "~/modules/user/application/dto/dto";
 import { UserWriteRepository } from "~/modules/user/infra/persistence/repository/write";
 import { UserReadRepository } from "~/modules/user/infra/persistence/repository/read";
-import type { IUserCreateRepository } from "~/modules/user/domain/interface/repository";
 import { Customer } from "~/modules/customer/domain/entity/customer";
 import { CustomerModel } from "~/modules/customer/infra/persistence/model/customer";
 import { CustomerWriteRepository } from "~/modules/customer/infra/persistence/repository/write";
@@ -20,8 +20,11 @@ import { Admin } from "~/modules/admin/domain/entity/admin";
 import { CustomerCreationAttributes } from "~/modules/customer/infra/persistence/model/customer";
 import { AdminCreationAttributes } from "~/modules/admin/infra/persistence/model/admin";
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
-import { ValidationError } from "~/shared/infra/error";
 import { UserAdded } from "~/modules/user/domain/event/user_added";
+
+import type { IUserCreateRepository } from "~/modules/user/domain/interface/repository";
+
+import { ValidationError, NotImplementedError } from "~/shared/infra/error";
 
 @injectable()
 export class UserCreateUseCase
@@ -33,13 +36,13 @@ export class UserCreateUseCase
     @inject(UserWriteRepository)
     private userWriteRepository: IUserCreateRepository,
     @inject(CustomerWriteRepository)
-    private customerWriteRepository: CustomerWriteRepository
+    private customerWriteRepository: CustomerWriteRepository,
   ) {}
 
   async execute(
     dto: CreateUserDTO,
     isCreateForAdmin = false,
-    parentTransaction?: TransactionSequelize
+    parentTransaction?: TransactionSequelize,
   ): Promise<Result<UserModel, string>> {
     const schema = CreateUserDTOSchema.safeParse(dto);
 
@@ -49,7 +52,7 @@ export class UserCreateUseCase
       return Result.fail(validationError.toString());
     }
 
-    // check if user with the same email/phone already exists
+    // Check if user with the same email/phone already exists
     const existingUser = await this.userReadRepository.firstAny({
       email: dto.email,
       phone: dto.phone,
@@ -58,7 +61,7 @@ export class UserCreateUseCase
     if (existingUser) {
       throw new ValidationError(
         "duplicate_customer",
-        "A user with that email and phone already exists"
+        "A user with that email and phone already exists",
       );
     }
 
@@ -76,7 +79,7 @@ export class UserCreateUseCase
 
         const createdUser = await this.userWriteRepository.save(
           user.value(),
-          t
+          t,
         );
         const createdUserId = createdUser.id;
 
@@ -87,14 +90,14 @@ export class UserCreateUseCase
         }
 
         return Result.Ok(createdUser);
-      }
+      },
     );
   }
 
   protected async createCustomer(
     userId: string,
     payload: Omit<CustomerCreationAttributes, "userId">,
-    parentTransaction: TransactionSequelize
+    parentTransaction: TransactionSequelize,
   ): Promise<Result<CustomerModel>> {
     const customer = Customer.create({
       ...payload,
@@ -102,7 +105,7 @@ export class UserCreateUseCase
     });
     const createdCustomer = await this.customerWriteRepository.save(
       customer.value(),
-      parentTransaction
+      parentTransaction,
     );
     return Result.Ok(createdCustomer);
   }
@@ -110,8 +113,8 @@ export class UserCreateUseCase
   protected async createAdmin(
     userId: string,
     payload: Omit<AdminCreationAttributes, "userId">,
-    parentTransaction: TransactionSequelize
+    parentTransaction: TransactionSequelize,
   ): Promise<Result<Admin>> {
-    throw new Error("Not implemented yet!");
+    throw new NotImplementedError("Create admin is not implemented yet");
   }
 }
