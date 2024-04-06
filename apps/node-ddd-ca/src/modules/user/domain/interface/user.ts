@@ -10,6 +10,6 @@ export const UserAttributesSchema = z.object({
 export interface IUserAttributes extends z.infer<typeof UserAttributesSchema> {}
 
 export enum UserTypes {
-  ADMIN,
-  CUSTOMER,
+  ADMIN = "admin",
+  CUSTOMER = "customer",
 }

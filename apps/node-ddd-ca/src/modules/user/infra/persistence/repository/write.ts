@@ -24,13 +24,13 @@ export class UserWriteRepository
 
   async save(
     user: User,
-    parentTransaction?: TransactionSequelize,
+    parentTransaction?: TransactionSequelize
   ): Promise<User> {
     return BaseWriteRepository.beginTransaction(
       { t: parentTransaction },
       async (t) => {
         return super.save(user, t);
-      },
+      }
     );
   }
 }

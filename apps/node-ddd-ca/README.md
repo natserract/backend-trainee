@@ -151,6 +151,8 @@ An *Entity* is a potentially changeable object, which has a unique identifier.
 
 A [Factory](https://culttt.com/2014/12/24/factories-domain-driven-design) is an object that has the single responsibility of creating other objects. In either case, when something has the responsibility for creating another object, it’s called a **Factory**.
 
+The factory pattern in DDD can be seen as a super pattern for the Gang of Four (GoF) creational patterns. The factory pattern is responsible for the creation of complex objects like aggregates.
+
 > For example, we might have a payment gateway Factory that should provide a class for accepting payments from customers to any one of many payment gateways.
 
 #### Why Is It So Important?
@@ -169,7 +171,11 @@ Factory Pattern shines in scenarios where:
 - A class delegates responsibilities to helper subclasses, and the knowledge of which helper class is the best suited for the job needs to be localized.
 - Objects created share a common interface, but their specific type might be determined at runtime.
 
-### Strategy Pattern
+#### How to use factories?
+
+When using factories for aggregates in DDD, there are certain practices and patterns to follow. Complex or domain knowledge-requiring creation processes should be handled by factories, while simple or trivial aggregates can be created directly by the client or by a constructor. **Factories should be part of the domain layer, not the application or infrastructure layer**, and should be aligned with the domain model and the ubiquitous language instead of technical details or external systems. Additionally, factories should act as collaborators, not controllers, and should only create aggregates and return them to the client. Factories can be implemented as static methods, classes, or services depending on design trade-offs and preferences; static methods are simple and convenient but cannot be injected or mocked, classes are more flexible and testable but require more boilerplate code, and services are more abstract and decoupled but introduce complexity and overhead.
+
+#### Strategy Pattern
 
 The Strategy pattern allows us to dynamically swap out algorithms (i.e. application logic) at runtime. Strategy design pattern is a behavioural design pattern that allows a class to switch/run an algorithm at runtime. Instead of implementing a single algorithm directly, your class receives run-time instructions as to which strategy to use in a family of algorithms.
 
@@ -240,3 +246,5 @@ Adding tsyringe has definitely made managing our application dependencies and te
 - [https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/](https://bazaglia.com/clean-architecture-with-typescript-ddd-onion/)
 - [https://antman-does-software.com/functional-domain-driven-design-simplified](https://antman-does-software.com/functional-domain-driven-design-simplified)
 - [https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3](https://medium.com/@alemarr/solid-principles-using-typescript-c475031efcd3)
+- [https://svatasimara.medium.com/domain-driven-design-part-8-services-and-factories-4c0dec11fdc1
+  ](https://svatasimara.medium.com/domain-driven-design-part-8-services-and-factories-4c0dec11fdc1)
