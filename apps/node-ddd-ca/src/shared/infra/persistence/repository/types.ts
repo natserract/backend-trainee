@@ -53,16 +53,12 @@ export type FindOptionsTransaction<ModelT extends Model> = Omit<
 export type GetOptions<
   ModelT extends Model,
   K extends keyof FindOptionsTransaction<Attributes<ModelT>>,
-> = Pick<FindOptionsTransaction<Attributes<ModelT>>, K> & {
-  circuitDisabled?: boolean;
-};
+> = Pick<FindOptionsTransaction<Attributes<ModelT>>, K>;
 
 export type GetOptionsBaseFields<
   ModelT extends Model,
   K extends keyof FindOptionsTransaction<Attributes<ModelT>>,
-> = Pick<FindOptionsTransaction<Attributes<ModelT> & IBaseFields>, K> & {
-  circuitDisabled?: boolean;
-};
+> = Pick<FindOptionsTransaction<Attributes<ModelT> & IBaseFields>, K>;
 
 export abstract class Repository {
   abstract init<ModelT extends Model>(

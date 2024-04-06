@@ -49,18 +49,11 @@ export class UserCreateUseCase
       return Result.fail(validationError.toString());
     }
 
-    const getUserOptions = {
-      circuitDisabled: true,
-    };
-
     // check if user with the same email/phone already exists
-    const existingUser = await this.userReadRepository.first(
-      {
-        email: dto.email,
-        phone: dto.phone,
-      },
-      getUserOptions
-    );
+    const existingUser = await this.userReadRepository.firstAny({
+      email: dto.email,
+      phone: dto.phone,
+    });
 
     if (existingUser) {
       throw new ValidationError(

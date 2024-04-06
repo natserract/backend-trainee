@@ -44,7 +44,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       paranoid: options.paranoid,
     });
 
-    if (!options.circuitDisabled && !readModel) {
+    if (!readModel) {
       throw new NotFoundError(`Could not find ${this.model.name} ${id}`);
     }
 
@@ -84,6 +84,26 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       paranoid: true,
     }
   ): Promise<ModelT | null> {
+    const readModel = await this.firstAny(whereClause, options);
+
+    if (!readModel) {
+      throw new NotFoundError(
+        `Could not find ${this.model.name} ${JSON.stringify(whereClause)}`
+      );
+    }
+
+    return readModel;
+  }
+
+  async firstAny(
+    whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
+    options: GetOptionsBaseFields<
+      ModelT,
+      "limit" | "offset" | "parentTransaction" | "paranoid"
+    > = {
+      paranoid: true,
+    }
+  ): Promise<ModelT | null> {
     const readModel = await this.model.findOne({
       where: {
         ...this.baseWhereClause,
@@ -94,12 +114,6 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       transaction: options.parentTransaction,
       paranoid: options.paranoid,
     });
-
-    if (!options.circuitDisabled && !readModel) {
-      throw new NotFoundError(
-        `Could not find ${this.model.name} ${JSON.stringify(whereClause)}`
-      );
-    }
 
     return readModel;
   }
