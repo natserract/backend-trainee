@@ -16,9 +16,10 @@ const sentryMiddleware = async (ctx: Context, next: Next) => {
   const sentry = sentryService.getInstance();
 
   if (!sentry) {
-    logger.log("Sentry initialization failed");
+    logger.warn("No Sentry DSN provided!");
 
     // initialization failed
+    await next();
     return;
   }
 
@@ -40,14 +41,14 @@ const sentryMiddleware = async (ctx: Context, next: Next) => {
             {
               // Don't parse the transaction name, we'll do it manually
               transaction: false,
-            },
+            }
           );
         });
 
         // Manually add transaction name
         scope.setTag(
           "transaction",
-          `${reqMethod} ${reqUrl} ${ctx._matchedRoute}`,
+          `${reqMethod} ${reqUrl} ${ctx._matchedRoute}`
         );
         scope.setTag("url", reqUrl);
         scope.setTag("method", reqMethod);
