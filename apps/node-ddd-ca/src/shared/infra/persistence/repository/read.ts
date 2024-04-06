@@ -37,16 +37,26 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     options: GetOptions<ModelT, "parentTransaction" | "paranoid"> = {
       paranoid: true,
     }
+  ): Promise<ModelT> {
+    const readModel = await this.getAny(id, options);
+    if (!readModel) {
+      throw new NotFoundError(`Could not find ${this.model.name} ${id}`);
+    }
+
+    return readModel;
+  }
+
+  async getAny(
+    id: number,
+    options: GetOptions<ModelT, "parentTransaction" | "paranoid"> = {
+      paranoid: true,
+    }
   ): Promise<ModelT | null> {
     const readModel = await this.model.findByPk(id, {
       include: [...this.eagerLoadMapping.values()],
       transaction: options.parentTransaction,
       paranoid: options.paranoid,
     });
-
-    if (!readModel) {
-      throw new NotFoundError(`Could not find ${this.model.name} ${id}`);
-    }
 
     return readModel;
   }
