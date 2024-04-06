@@ -21,6 +21,7 @@ import { CustomerCreationAttributes } from "~/modules/customer/infra/persistence
 import { AdminCreationAttributes } from "~/modules/admin/infra/persistence/model/admin";
 import { UserModel } from "~/modules/user/infra/persistence/model/user";
 import { ValidationError } from "~/shared/infra/error";
+import { UserAdded } from "~/modules/user/domain/event/user_added";
 
 @injectable()
 export class UserCreateUseCase
@@ -76,6 +77,10 @@ export class UserCreateUseCase
           password: dto.password,
           phone: dto.phone,
         });
+
+        // Dispatched event
+        user.value().dispatchEvent(UserAdded.NAME);
+
         const createdUser = await this.userWriteRepository.save(
           user.value(),
           t
