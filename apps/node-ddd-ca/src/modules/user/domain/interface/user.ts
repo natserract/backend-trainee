@@ -2,8 +2,12 @@ import { z } from "zod";
 
 export const UserAttributesSchema = z.object({
   id: z.string().uuid(),
-  password: z.string(),
-  email: z.string().email(),
+  password: z
+    .string()
+    .min(6, { message: "Password must be 6 or more characters" }),
+  email: z
+    .string({ required_error: "Email is required" })
+    .email("Not a valid email"),
   phone: z.string().nullish(),
 });
 

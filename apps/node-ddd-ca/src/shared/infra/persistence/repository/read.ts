@@ -24,7 +24,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     model: ModelStatic<ModelT>,
     eagerLoad: EagerLoad[] = [],
     order: OrderItem[] = [],
-    whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
+    whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {}
   ) {
     this.model = model;
     this.eagerLoadMapping = new Map(eagerLoad.map((el) => [el.as, el]));
@@ -36,15 +36,15 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     id: number,
     options: GetOptions<ModelT, "parentTransaction" | "paranoid"> = {
       paranoid: true,
-    },
-  ): Promise<ModelT> {
+    }
+  ): Promise<ModelT | null> {
     const readModel = await this.model.findByPk(id, {
       include: [...this.eagerLoadMapping.values()],
       transaction: options.parentTransaction,
       paranoid: options.paranoid,
     });
 
-    if (!readModel) {
+    if (!options.circuitDisabled && !readModel) {
       throw new NotFoundError(`Could not find ${this.model.name} ${id}`);
     }
 
@@ -58,7 +58,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     > = {
       limit: undefined,
       offset: 0,
-    },
+    }
   ): Promise<ModelT[]> {
     try {
       return await this.model.findAll({
@@ -82,8 +82,8 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       "limit" | "offset" | "parentTransaction" | "paranoid"
     > = {
       paranoid: true,
-    },
-  ): Promise<ModelT> {
+    }
+  ): Promise<ModelT | null> {
     const readModel = await this.model.findOne({
       where: {
         ...this.baseWhereClause,
@@ -95,9 +95,9 @@ export abstract class BaseReadRepository<ModelT extends Model> {
       paranoid: options.paranoid,
     });
 
-    if (!readModel) {
+    if (!options.circuitDisabled && !readModel) {
       throw new NotFoundError(
-        `Could not find ${this.model.name} ${JSON.stringify(whereClause)}`,
+        `Could not find ${this.model.name} ${JSON.stringify(whereClause)}`
       );
     }
 
@@ -112,7 +112,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
     > = {
       limit: undefined,
       offset: 0,
-    },
+    }
   ): Promise<ModelT[]> {
     try {
       return await this.model.findAll({
@@ -133,7 +133,7 @@ export abstract class BaseReadRepository<ModelT extends Model> {
 
   async count(
     whereClause: WhereOptions<Attributes<ModelT> & IBaseFields> = {},
-    options: GetOptionsBaseFields<ModelT, "parentTransaction">,
+    options: GetOptionsBaseFields<ModelT, "parentTransaction">
   ): Promise<number> {
     const countModel = await this.model.count({
       distinct: true,

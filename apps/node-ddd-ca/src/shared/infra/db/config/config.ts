@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 import { SequelizeStorage, Umzug } from "umzug";
 
-import Config from "~/configs";
+import Config, { type APP_ENV_TYPES } from "~/configs";
 
-const databaseCredentials = {
+const databaseCredentials: Record<APP_ENV_TYPES, any> = {
   development: {
     username: Config.DB_USER,
     password: Config.DB_PASS,
@@ -44,7 +44,7 @@ export const connection: { sequelize: Sequelize } = {
       },
       // enable when you want to check the generated SQL by sequelize
       logging: false,
-    },
+    }
   ),
 };
 

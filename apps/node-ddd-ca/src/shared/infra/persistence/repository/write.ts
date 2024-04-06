@@ -3,18 +3,20 @@ import {
   type ModelStatic,
   Transaction as TransactionSequelize,
 } from "sequelize";
-import { Aggregate, EntityProps } from "types-ddd";
+import { Aggregate, Entity, EntityProps } from "types-ddd";
 
 import { connection } from "~/shared/infra/db/config/config";
 import { AggregateNotFound } from "~/shared/infra/error";
 
 const sequelize = connection.sequelize;
 
+// @todo fix include: Aggregate |  Entity;
+type PolymorphicAggregate = any;
+
 export abstract class BaseWriteRepository<
   WriteModelType extends Model,
   WriteAttributesType extends EntityProps,
-  AggregateRootType extends
-    Aggregate<WriteAttributesType> = Aggregate<WriteAttributesType>,
+  AggregateRootType extends PolymorphicAggregate = PolymorphicAggregate,
 > {
   protected readonly model: ModelStatic<WriteModelType>;
 
@@ -22,7 +24,9 @@ export abstract class BaseWriteRepository<
     this.model = model;
   }
 
-  async getById(id: AggregateRootType["id"]): Promise<WriteModelType> {
+  async getById(
+    id: Aggregate<WriteAttributesType>["id"]
+  ): Promise<WriteModelType> {
     const writeModel = await this.model.findOne({
       where: {
         // tslint:disable-next-line:no-any Can't wrangle correct type
@@ -39,19 +43,19 @@ export abstract class BaseWriteRepository<
 
   async save(
     aggregateRoot: AggregateRootType,
-    parentTransaction?: TransactionSequelize,
-  ): Promise<AggregateRootType> {
-    const values = Object.assign(aggregateRoot.toObject());
-    const writeModel = await this.model.create(values, {
+    parentTransaction?: TransactionSequelize
+  ): Promise<WriteModelType> {
+    const _aggregateRoot = aggregateRoot as Aggregate<WriteAttributesType>;
+    const values = Object.assign(_aggregateRoot.toObject());
+
+    return await this.model.create(values, {
       transaction: parentTransaction,
     });
-
-    return this.toAggregateRoot(writeModel);
   }
 
   static async beginTransaction<T>(
     options: { t?: TransactionSequelize },
-    callback: (t: TransactionSequelize) => Promise<T>,
+    callback: (t: TransactionSequelize) => Promise<T>
   ) {
     let currentTransaction: TransactionSequelize | undefined = options.t;
     if (!currentTransaction) {

@@ -1,5 +1,11 @@
+import { Aggregate } from "types-ddd";
+import { Transaction as TransactionSequelize } from "sequelize";
+
 import { User } from "~/modules/user/domain/entity/user";
-import { UserModel } from "~/modules/user/infra/persistence/model/user";
+import {
+  UserModel,
+  UserCreationAttributes,
+} from "~/modules/user/infra/persistence/model/user";
 
 export interface IUserGetAllRepository {
   getAll(): Promise<UserModel[]>;
@@ -14,7 +20,11 @@ export interface IUserReadRepository
     IUserGetByIdRepository {}
 
 export interface IUserCreateRepository {
-  save(user: User): Promise<User>;
+  getById(id: Aggregate<UserCreationAttributes>["id"]): Promise<UserModel>;
+  save(
+    user: User,
+    parentTransaction?: TransactionSequelize
+  ): Promise<UserModel>;
 }
 
 export interface IUserWriteRepository extends IUserCreateRepository {}
