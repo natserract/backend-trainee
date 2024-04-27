@@ -2,7 +2,7 @@
 
 **Related files:**
 
-- [server.ts](apps/http2/src/shared/infra/http/server.ts)
+- [server.ts](src/shared/infra/http/server.ts)
 
 **Generate certificate locally:**
 
