@@ -1,10 +1,14 @@
 import Koa from "koa";
-
-import publicRouter from "~/shared/infra/http/controller/public/";
+import Router from "@koa/router";
+import type { Context } from "koa";
 
 const registerApplicationRouters = async (app: Koa) => {
-  app.use(publicRouter.routes());
-  app.use(publicRouter.allowedMethods());
+  const router = new Router();
+  router.get("/", function (ctx: Context) {
+    ctx.body = "Support HTTP2";
+  });
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 };
 
 export default registerApplicationRouters;

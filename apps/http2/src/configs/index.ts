@@ -5,6 +5,7 @@ dotenv.config();
 export type APP_ENV_TYPES = "development" | "test" | "production";
 
 abstract class Config {
+  static readonly APP_HOST = process.env.APP_HOST || "localhost";
   static readonly APP_PORT = process.env.APP_PORT || 3001;
   static readonly APP_ENV: APP_ENV_TYPES = "development";
   static readonly DB_HOST = process.env.DB_HOST || "127.0.0.1";
