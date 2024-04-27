@@ -12,3 +12,4 @@ yarn turbo run dev --filter=<task_name>
 ## Practical Tasks
 
 - [x] [NodeJS DDD-CA orchestration](apps/node-ddd-ca)
+- [x] [HTTP/2](apps/http2)
