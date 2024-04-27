@@ -3,6 +3,7 @@
 **Related files:**
 
 - [server.ts](src/shared/infra/http/server.ts)
+- [controller](https://github.com/natserract/backend-trainee/blob/3e5ac3d9fbee63d1acca2602483dd044aacfb48f/apps/http2/src/shared/infra/http/controller/index.ts#L5)
 
 **Generate certificate locally:**
 
